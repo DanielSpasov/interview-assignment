@@ -1,9 +1,13 @@
-import PageLayout from '../components/PageLayout';
+import { Typography } from 'antd';
+
+import PageLayout from '../components/core/PageLayout';
+
+const { Title } = Typography;
 
 const NotFound = () => {
   return (
     <PageLayout title="Page not Found">
-      <h1>Page not found</h1>
+      <Title style={{ textAlign: 'center' }}>Page not found</Title>
     </PageLayout>
   );
 };

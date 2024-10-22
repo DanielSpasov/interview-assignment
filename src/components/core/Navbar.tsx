@@ -28,6 +28,7 @@ const Navbar = () => {
       selectedKeys={[location.pathname.substring(1)]}
       items={navItems}
       mode="horizontal"
+      style={{ justifyContent: 'center' }}
     />
   );
 };
