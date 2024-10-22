@@ -1,7 +1,12 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from 'react';
 import { Card, Row, Col, Form, Button, message } from 'antd';
 
-import { UndoOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import {
+  UndoOutlined,
+  CheckOutlined,
+  CloseOutlined,
+  EditOutlined
+} from '@ant-design/icons';
 
 import { User } from '../types/User';
 
@@ -55,6 +60,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
     transformUserData(user)
   );
   const [isChanged, setIsChanged] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => setEditedUser(transformUserData(user)), [user]);
 
@@ -97,6 +103,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Username"
               name="username"
               onChange={handleChange}
+              disabled={!isEditing}
               value={editedUser.username}
             />
 
@@ -104,6 +111,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Email"
               onChange={handleChange}
               value={editedUser?.email}
+              disabled={!isEditing}
               name="email"
               type="email"
               required
@@ -113,6 +121,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Phone"
               onChange={handleChange}
               value={editedUser?.phone}
+              disabled={!isEditing}
               name="phone"
             />
 
@@ -120,6 +129,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Website"
               onChange={handleChange}
               value={editedUser?.website}
+              disabled={!isEditing}
               name="website"
             />
           </Card>
@@ -131,6 +141,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="City"
               onChange={handleChange}
               value={editedUser?.city}
+              disabled={!isEditing}
               name="city"
               required
             />
@@ -139,6 +150,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Street"
               onChange={handleChange}
               value={editedUser?.street}
+              disabled={!isEditing}
               name="street"
               required
             />
@@ -147,6 +159,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Suite"
               onChange={handleChange}
               value={editedUser?.suite}
+              disabled={!isEditing}
               name="suite"
               required
             />
@@ -155,6 +168,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Zipcode"
               onChange={handleChange}
               value={editedUser?.zipcode}
+              disabled={!isEditing}
               name="zipcode"
             />
           </Card>
@@ -166,6 +180,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Name"
               onChange={handleChange}
               value={editedUser?.companyName}
+              disabled={!isEditing}
               name="companyName"
             />
 
@@ -173,6 +188,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Business Service"
               onChange={handleChange}
               value={editedUser?.businessService}
+              disabled={!isEditing}
               name="businessService"
             />
 
@@ -180,6 +196,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               label="Catch Phrase"
               onChange={handleChange}
               value={editedUser?.catchPhrase}
+              disabled={!isEditing}
               name="catchPhrase"
             />
           </Card>
@@ -187,15 +204,33 @@ const UserData: FC<UserDataProps> = ({ id }) => {
       </Row>
 
       <div style={{ justifyContent: 'end', display: 'flex', gap: '.5em' }}>
-        <Button type="default" danger icon={<CloseOutlined />}>
-          Cancel
-        </Button>
+        {isEditing ? (
+          <Button
+            type="default"
+            danger
+            icon={<CloseOutlined />}
+            onClick={() => {
+              setEditedUser(transformUserData(user));
+              setIsEditing(false);
+            }}
+          >
+            Cancel
+          </Button>
+        ) : (
+          <Button
+            type="default"
+            icon={<EditOutlined />}
+            onClick={() => setIsEditing(true)}
+          >
+            Edit
+          </Button>
+        )}
 
         <Button
           type="default"
           icon={<UndoOutlined />}
           onClick={handleRevert}
-          disabled={!isChanged}
+          disabled={!isChanged || !isEditing}
         >
           Revert
         </Button>
@@ -203,7 +238,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
         <Button
           type="primary"
           onClick={handleSubmit}
-          disabled={!isChanged}
+          disabled={!isChanged || !isEditing}
           icon={<CheckOutlined />}
         >
           Submit
