@@ -1,19 +1,13 @@
 import { ChangeEvent, FC, memo, useCallback, useEffect, useState } from 'react';
-import { Card, Row, Col, Form, Button, message } from 'antd';
-
-import {
-  UndoOutlined,
-  CheckOutlined,
-  CloseOutlined,
-  EditOutlined
-} from '@ant-design/icons';
+import { Card, Row, Col, Form, message } from 'antd';
 
 import { User } from '../../types/User';
 
 import { useAppDispatch, useAppSelector } from '../../stores';
 import { updateUser } from '../../stores/users';
 
-import Input from '../common/Input';
+import FormControls from './FormControls';
+import Input from './Input';
 
 type IUserData = {
   username: User['name'];
@@ -63,6 +57,11 @@ const UserData: FC<UserDataProps> = ({ id }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => setEditedUser(transformUserData(user)), [user]);
+  useEffect(() => {
+    setIsChanged(
+      JSON.stringify(editedUser) !== JSON.stringify(transformUserData(user))
+    );
+  }, [editedUser, user]);
 
   const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setEditedUser(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -87,12 +86,6 @@ const UserData: FC<UserDataProps> = ({ id }) => {
     message.info('Changes reverted.');
     setIsChanged(false);
   }, [user]);
-
-  useEffect(() => {
-    setIsChanged(
-      JSON.stringify(editedUser) !== JSON.stringify(transformUserData(user))
-    );
-  }, [editedUser, user]);
 
   return (
     <Form>
@@ -203,47 +196,21 @@ const UserData: FC<UserDataProps> = ({ id }) => {
         </Col>
       </Row>
 
-      <div style={{ justifyContent: 'end', display: 'flex', gap: '.5em' }}>
-        {isEditing ? (
-          <Button
-            type="default"
-            danger
-            icon={<CloseOutlined />}
-            onClick={() => {
-              setEditedUser(transformUserData(user));
-              setIsEditing(false);
-            }}
-          >
-            Cancel
-          </Button>
-        ) : (
-          <Button
-            type="default"
-            icon={<EditOutlined />}
-            onClick={() => setIsEditing(true)}
-          >
-            Edit
-          </Button>
-        )}
-
-        <Button
-          type="default"
-          icon={<UndoOutlined />}
-          onClick={handleRevert}
-          disabled={!isChanged || !isEditing}
-        >
-          Revert
-        </Button>
-
-        <Button
-          type="primary"
-          onClick={handleSubmit}
-          disabled={!isChanged || !isEditing}
-          icon={<CheckOutlined />}
-        >
-          Submit
-        </Button>
-      </div>
+      <FormControls
+        disableSubmit={!isChanged || !isEditing}
+        disableRevert={!isChanged || !isEditing}
+        onSubmit={handleSubmit}
+        onRevert={handleRevert}
+        onEdit={!isEditing ? () => setIsEditing(true) : undefined}
+        onCancel={
+          isEditing
+            ? () => {
+                setEditedUser(transformUserData(user));
+                setIsEditing(false);
+              }
+            : undefined
+        }
+      />
     </Form>
   );
 };

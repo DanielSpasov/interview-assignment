@@ -7,9 +7,9 @@ import {
   useState
 } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Card, Col, Form, message, Modal, Row, Typography } from 'antd';
-import { UndoOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Card, Col, Form, message, Modal, Row, Typography } from 'antd';
 
+import FormControls from '../components/common/FormControls';
 import PageLayout from '../components/core/PageLayout';
 import Textarea from '../components/common/Textarea';
 import UserData from '../components/common/UserData';
@@ -45,8 +45,7 @@ const Posts = () => {
 
   useEffect(() => {
     (async () => {
-      await fetchPosts(Number(id));
-      await dispatch(getUser(id));
+      await Promise.all([fetchPosts(Number(id)), dispatch(getUser(id))]);
     })();
   }, [dispatch]);
 
@@ -133,41 +132,16 @@ const Posts = () => {
           />
         </Form>
 
-        <div
-          style={{
-            justifyContent: 'end',
-            display: 'flex',
-            gap: '.5em'
+        <FormControls
+          disableRevert={!isChanged}
+          disableSubmit={!isChanged}
+          onSubmit={handleSubmit}
+          onRevert={handleRevert}
+          onCancel={() => {
+            setEditedPost({});
+            setShowModal(false);
           }}
-        >
-          <Button
-            type="default"
-            danger
-            icon={<CloseOutlined />}
-            onClick={() => {
-              setEditedPost({});
-              setShowModal(false);
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            type="default"
-            icon={<UndoOutlined />}
-            onClick={handleRevert}
-            disabled={!isChanged}
-          >
-            Revert
-          </Button>
-          <Button
-            type="primary"
-            onClick={handleSubmit}
-            disabled={!isChanged}
-            icon={<CheckOutlined />}
-          >
-            Submit
-          </Button>
-        </div>
+        />
       </Modal>
     </PageLayout>
   );
