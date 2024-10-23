@@ -49,22 +49,27 @@ const FormControls: FC<FormControlsProps> = ({
         </Button>
       )}
 
-      <Button
-        type="default"
-        icon={<UndoOutlined />}
-        onClick={onRevert}
-        disabled={disableRevert}
-      >
-        Revert
-      </Button>
-      <Button
-        type="primary"
-        onClick={onSubmit}
-        disabled={disableSubmit}
-        icon={<CheckOutlined />}
-      >
-        Submit
-      </Button>
+      {onRevert && (
+        <Button
+          type="default"
+          icon={<UndoOutlined />}
+          onClick={onRevert}
+          disabled={disableRevert}
+        >
+          Revert
+        </Button>
+      )}
+
+      {onSubmit && (
+        <Button
+          type="primary"
+          onClick={onSubmit}
+          disabled={disableSubmit}
+          icon={<CheckOutlined />}
+        >
+          Submit
+        </Button>
+      )}
     </div>
   );
 };

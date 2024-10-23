@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { message } from 'antd';
 import axios from 'axios';
 
 import { User } from '../types/User';
@@ -68,25 +69,31 @@ const usersSlice = createSlice({
     builder
       .addCase(fetchUsers.pending, state => {
         state.status = STATUS.LOADING;
+        state.error = null;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.status = STATUS.SUCCESS;
         state.users = action.payload;
+        state.error = null;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.status = STATUS.ERROR;
         state.error = action.error.message ?? 'Something went wrong.';
+        message.error('Failed to fetch Users.');
       })
       .addCase(getUser.pending, state => {
         state.status = STATUS.LOADING;
+        state.error = null;
       })
       .addCase(getUser.fulfilled, (state, action) => {
         state.status = STATUS.SUCCESS;
         state.users = action.payload;
+        state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.status = STATUS.ERROR;
         state.error = action.error.message ?? 'Something went wrong.';
+        message.error('Failed to fetch User.');
       });
   }
 });

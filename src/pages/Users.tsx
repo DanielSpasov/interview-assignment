@@ -7,26 +7,26 @@ import UserData from '../components/common/UserData';
 import withUsersProvider from '../components/hoc/withUsersProvider';
 
 import { useAppDispatch, useAppSelector } from '../stores';
-import { fetchUsers } from '../stores/users';
+import { fetchUsers, STATUS } from '../stores/users';
 
 const { Title } = Typography;
 
 const Users = () => {
   const dispatch = useAppDispatch();
 
-  const data = useAppSelector(state => state.users.users);
+  const { users, error, status } = useAppSelector(state => state.users);
 
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
   return (
-    <PageLayout title="Users">
+    <PageLayout title="Users" loading={status === STATUS.LOADING} error={error}>
       <Title style={{ textAlign: 'center' }}>Users</Title>
 
-      {data && (
+      {users && (
         <Collapse
-          items={data.map(user => ({
+          items={users.map(user => ({
             id: user.id.toString(),
             label: (
               <div

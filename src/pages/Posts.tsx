@@ -37,7 +37,8 @@ const Posts = () => {
 
   const {
     users: [user],
-    status
+    status,
+    error
   } = useAppSelector(store => store.users);
 
   const { posts, loading, fetchPosts, updatePost, deletePost } =
@@ -85,7 +86,11 @@ const Posts = () => {
   }, [editedPost, posts]);
 
   return (
-    <PageLayout title="Posts" loading={status === STATUS.LOADING || loading}>
+    <PageLayout
+      title="Posts"
+      loading={status === STATUS.LOADING || loading}
+      error={error}
+    >
       <Title style={{ textAlign: 'center' }}>{user?.name}&apos;s posts</Title>
 
       <Card style={{ margin: '1em 0' }}>
