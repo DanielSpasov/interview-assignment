@@ -1,4 +1,4 @@
-import { Button, Collapse, Typography } from 'antd';
+import { Button, Collapse } from 'antd';
 import { useEffect } from 'react';
 
 import PageLayout from '../components/core/PageLayout';
@@ -8,8 +8,6 @@ import withUsersProvider from '../components/hoc/withUsersProvider';
 
 import { useAppDispatch, useAppSelector } from '../stores';
 import { fetchUsers, STATUS } from '../stores/users';
-
-const { Title } = Typography;
 
 const Users = () => {
   const dispatch = useAppDispatch();
@@ -22,8 +20,6 @@ const Users = () => {
 
   return (
     <PageLayout title="Users" loading={status === STATUS.LOADING} error={error}>
-      <Title style={{ textAlign: 'center' }}>Users</Title>
-
       {users && (
         <Collapse
           items={users.map(user => ({

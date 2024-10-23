@@ -25,7 +25,7 @@ import { PostsContext } from '../contexts/Posts';
 
 import { Post as IPost } from '../types/Post';
 
-const { Title, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const Posts = () => {
   const { id = '0' } = useParams();
@@ -87,12 +87,10 @@ const Posts = () => {
 
   return (
     <PageLayout
-      title="Posts"
+      title={`${user?.name}'s posts`}
       loading={status === STATUS.LOADING || loading}
       error={error}
     >
-      <Title style={{ textAlign: 'center' }}>{user?.name}&apos;s posts</Title>
-
       <Card style={{ margin: '1em 0' }}>
         <UserData id={Number(id)} />
       </Card>

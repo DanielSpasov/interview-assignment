@@ -19,8 +19,12 @@ const PageLayout: FC<PageLayoutProps> = ({
   error
 }) => {
   useEffect(() => {
+    if (loading) {
+      document.title = 'Loading...';
+      return;
+    }
     document.title = title;
-  }, [title]);
+  }, [title, loading]);
 
   return (
     <section>
@@ -35,7 +39,10 @@ const PageLayout: FC<PageLayoutProps> = ({
           type="error"
         />
       ) : (
-        children
+        <>
+          <Title style={{ textAlign: 'center' }}>{title}</Title>
+          {children}
+        </>
       )}
     </section>
   );
