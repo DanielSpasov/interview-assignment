@@ -28,10 +28,7 @@ const Post: FC<PostProps> = ({ title, body, id, onClick, onDelete }) => {
 
         <Popconfirm
           title="Are you sure you want to delete this post?"
-          onConfirm={e => {
-            e?.stopPropagation();
-            onDelete(id);
-          }}
+          onConfirm={() => onDelete(id)}
           okText="Yes"
           cancelText="No"
         >

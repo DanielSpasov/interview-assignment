@@ -1,4 +1,5 @@
 import { ComponentType, FC } from 'react';
+
 import { PostsProvider } from '../../contexts/Posts';
 
 const withPostsProvider = (Component: ComponentType) => {
