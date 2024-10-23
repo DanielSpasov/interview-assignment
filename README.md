@@ -18,20 +18,16 @@ To run the project locally, follow the steps:
    cd interview-assignment
    ```
 3. **Install dependencies**:
-   npm
    ```bash
    npm install
    ```
-   yarn
    ```bash
    yarn
    ```
 4. **Start the application**:
-   npm
    ```bash
    npm run dev
    ```
-   yarn
    ```bash
    yarn dev
    ```
