@@ -98,7 +98,7 @@ const Posts = () => {
       </Card>
 
       <Row gutter={[16, 16]}>
-        {!posts.length ? (
+        {posts.length ? (
           posts.map(post => (
             <Col key={post.id} xs={24} sm={12} md={8}>
               <Post
@@ -113,7 +113,7 @@ const Posts = () => {
           ))
         ) : (
           <Paragraph style={{ margin: '0 auto' }}>
-            {user.name} has no posts.
+            {user?.name} has no posts.
           </Paragraph>
         )}
       </Row>
