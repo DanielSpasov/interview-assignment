@@ -25,7 +25,7 @@ import { PostsContext } from '../contexts/Posts';
 
 import { Post as IPost } from '../types/Post';
 
-const { Title } = Typography;
+const { Title, Paragraph } = Typography;
 
 const Posts = () => {
   const { id = '0' } = useParams();
@@ -98,18 +98,24 @@ const Posts = () => {
       </Card>
 
       <Row gutter={[16, 16]}>
-        {posts.map(post => (
-          <Col key={post.id} xs={24} sm={12} md={8}>
-            <Post
-              {...post}
-              onDelete={deletePost}
-              onClick={() => {
-                setShowModal(true);
-                setEditedPost(post);
-              }}
-            />
-          </Col>
-        ))}
+        {!posts.length ? (
+          posts.map(post => (
+            <Col key={post.id} xs={24} sm={12} md={8}>
+              <Post
+                {...post}
+                onDelete={deletePost}
+                onClick={() => {
+                  setShowModal(true);
+                  setEditedPost(post);
+                }}
+              />
+            </Col>
+          ))
+        ) : (
+          <Paragraph style={{ margin: '0 auto' }}>
+            {user.name} has no posts.
+          </Paragraph>
+        )}
       </Row>
 
       <Modal
