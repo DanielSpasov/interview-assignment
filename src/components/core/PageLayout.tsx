@@ -8,16 +8,10 @@ const { Title } = Typography;
 type PageLayoutProps = {
   title: string;
   loading?: boolean;
-  error?: string | null;
   children?: ReactNode;
 };
 
-const PageLayout: FC<PageLayoutProps> = ({
-  title,
-  children,
-  loading,
-  error
-}) => {
+const PageLayout: FC<PageLayoutProps> = ({ title, children, loading }) => {
   useEffect(() => {
     document.title = title;
   }, [title]);
@@ -28,8 +22,6 @@ const PageLayout: FC<PageLayoutProps> = ({
 
       {loading ? (
         <Title style={{ textAlign: 'center' }}>Loading...</Title>
-      ) : error ? (
-        <Title style={{ textAlign: 'center' }}>{error}</Title>
       ) : (
         children
       )}

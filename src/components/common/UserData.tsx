@@ -8,12 +8,12 @@ import {
   EditOutlined
 } from '@ant-design/icons';
 
-import { User } from '../types/User';
+import { User } from '../../types/User';
 
-import { useAppDispatch, useAppSelector } from '../store';
-import { updateUser } from '../store/users';
+import { useAppDispatch, useAppSelector } from '../../stores';
+import { updateUser } from '../../stores/users';
 
-import Input from './common/Input';
+import Input from '../common/Input';
 
 type IUserData = {
   username: User['name'];

@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
 import { Button, Collapse, Typography } from 'antd';
+import { useEffect } from 'react';
 
 import PageLayout from '../components/core/PageLayout';
-import UserData from '../components/UserData';
+import UserData from '../components/common/UserData';
 
-import { useAppDispatch, useAppSelector } from '../store';
-import { fetchUsers } from '../store/users';
+import withUsersProvider from '../components/hoc/withUsersProvider';
+
+import { useAppDispatch, useAppSelector } from '../stores';
+import { fetchUsers } from '../stores/users';
 
 const { Title } = Typography;
 
@@ -20,7 +22,7 @@ const Users = () => {
 
   return (
     <PageLayout title="Users">
-      <Title>Users</Title>
+      <Title style={{ textAlign: 'center' }}>Users</Title>
 
       {data && (
         <Collapse
@@ -49,4 +51,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default withUsersProvider(Users);

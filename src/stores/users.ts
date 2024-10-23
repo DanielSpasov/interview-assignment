@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 import { User } from '../types/User';
 
 export const STATUS = {
@@ -15,6 +16,16 @@ export const fetchUsers = createAsyncThunk<User[]>(
       'https://jsonplaceholder.typicode.com/users'
     );
     return res.data;
+  }
+);
+
+export const getUser = createAsyncThunk<User[], string>(
+  'users/getUser',
+  async id => {
+    const res = await axios.get<User>(
+      `https://jsonplaceholder.typicode.com/users/${id}`
+    );
+    return [res.data];
   }
 );
 
@@ -63,6 +74,17 @@ const usersSlice = createSlice({
         state.users = action.payload;
       })
       .addCase(fetchUsers.rejected, (state, action) => {
+        state.status = STATUS.ERROR;
+        state.error = action.error.message ?? 'Something went wrong.';
+      })
+      .addCase(getUser.pending, state => {
+        state.status = STATUS.LOADING;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.status = STATUS.SUCCESS;
+        state.users = action.payload;
+      })
+      .addCase(getUser.rejected, (state, action) => {
         state.status = STATUS.ERROR;
         state.error = action.error.message ?? 'Something went wrong.';
       });
