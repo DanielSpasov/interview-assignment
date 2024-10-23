@@ -9,7 +9,7 @@ type InputProps = {
 
 const Input: FC<InputProps> = ({ onChange, label, ...rest }) => {
   return (
-    <Form.Item label={label}>
+    <Form.Item label={label} required={rest?.required}>
       <AntInput onChange={onChange} {...rest} />
     </Form.Item>
   );

@@ -69,10 +69,26 @@ const UserData: FC<UserDataProps> = ({ id }) => {
   }, []);
 
   const handleSubmit = useCallback(() => {
-    const { username, email, street, suite, city } = editedUser;
+    const {
+      username = editedUser.username.trim(),
+      email = editedUser.email.trim(),
+      street = editedUser.street.trim(),
+      suite = editedUser.suite.trim(),
+      city = editedUser.city.trim()
+    } = editedUser;
 
     if (!username || !email || !street || !suite || !city) {
       message.error('Please fill in all required fields.');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      message.error('Please enter a valid email address.');
+      return;
+    }
+    if (username.length < 3) {
+      message.error('Username must be at least 3 characters long.');
       return;
     }
 
@@ -98,6 +114,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
               onChange={handleChange}
               disabled={!isEditing}
               value={editedUser.username}
+              required
             />
 
             <Input
