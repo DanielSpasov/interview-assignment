@@ -7,7 +7,7 @@ import { Dispatch, RootState } from '../../../shared/stores/configureStore';
 import PageLayout from '../../../shared/components/PageLayout';
 
 import { selectUsersState, fetchUsers, STATUS } from '../usersSlice';
-import UserData from '../features/UserData';
+import UserData from '../features/EditUser';
 
 const Users = () => {
   const { users, status, error } = useSelector((state: RootState) =>

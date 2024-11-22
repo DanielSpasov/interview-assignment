@@ -1,6 +1,6 @@
-import { IUserData } from './types';
+import { UserData } from './types';
 
-export const validateUserData = (data: Partial<IUserData>) => {
+export const validateUserData = (data: Partial<UserData>) => {
   const {
     username = data.username?.trim(),
     email = data.email?.trim(),

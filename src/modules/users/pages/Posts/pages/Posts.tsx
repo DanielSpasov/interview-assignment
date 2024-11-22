@@ -9,7 +9,7 @@ import { Post as IPost } from '../../../../../shared/types/Post';
 import Post from '../../../../../shared/components/Post';
 
 import { fetchUsers, selectUsersState, STATUS } from '../../../usersSlice';
-import UserData from '../../../features/UserData';
+import UserData from '../../../features/EditUser';
 import { PostsContext } from '../postsContext';
 import { EditPost } from './features/EditPost';
 

@@ -1,7 +1,7 @@
 import { User } from '../../../../shared/types/User';
-import { IUserData } from './types';
+import { UserData } from './types';
 
-export const transformUserData = (user?: User): IUserData => {
+export const transformUserData = (user?: User): UserData => {
   return {
     username: user?.username,
     email: user?.email,

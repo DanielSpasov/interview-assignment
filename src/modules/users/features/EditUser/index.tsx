@@ -14,11 +14,11 @@ import FormControls from '../../../../shared/components/FormControls';
 import Input from '../../../../shared/components/Input/Input';
 
 import { selectUsersState, updateUser } from '../../usersSlice';
-import { IUserData, UserDataProps } from './types';
+import { UserData, EditUserProps } from './types';
 import { validateUserData } from './validators';
 import { transformUserData } from './utils';
 
-const UserData: FC<UserDataProps> = ({ id }) => {
+const EditUser: FC<EditUserProps> = ({ id }) => {
   const dispatch = useDispatch();
   const { users } = useSelector(selectUsersState);
 
@@ -27,7 +27,7 @@ const UserData: FC<UserDataProps> = ({ id }) => {
     [id, users]
   );
 
-  const [editedUser, setEditedUser] = useState<IUserData>(
+  const [editedUser, setEditedUser] = useState<UserData>(
     transformUserData(user)
   );
   const [isChanged, setIsChanged] = useState(false);
@@ -192,4 +192,4 @@ const UserData: FC<UserDataProps> = ({ id }) => {
   );
 };
 
-export default memo(UserData);
+export default memo(EditUser);
