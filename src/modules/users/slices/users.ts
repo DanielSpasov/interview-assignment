@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { RootState } from '../../shared/stores/configureStore';
-import { Dispatch } from '../../shared/stores/configureStore';
-import { User } from '../../shared/types/User';
+import { RootState } from '../../../shared/stores/configureStore';
+import { Dispatch } from '../../../shared/stores/configureStore';
+import { User } from '../../../shared/types/User';
 
 export const STATUS = {
   IDLE: 'IDLE',

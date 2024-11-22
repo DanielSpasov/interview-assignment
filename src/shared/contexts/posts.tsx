@@ -10,7 +10,7 @@ import {
 import axios, { AxiosError } from 'axios';
 import { message } from 'antd';
 
-import { Post } from '../../../../shared/types/Post';
+import { Post } from '../types/Post';
 
 type PostsContextState = {
   posts: Post[];

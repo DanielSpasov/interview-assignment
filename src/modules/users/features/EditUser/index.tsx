@@ -13,7 +13,7 @@ import { Card, Row, Col, Form, message } from 'antd';
 import FormControls from '../../../../shared/components/FormControls';
 import Input from '../../../../shared/components/Input/Input';
 
-import { selectUsersState, updateUser } from '../../usersSlice';
+import { selectUsersState, updateUser } from '../../slices/users';
 import { UserData, EditUserProps } from './types';
 import { validateUserData } from './validators';
 import { transformUserData } from './utils';

@@ -2,7 +2,7 @@ import { Provider } from 'react-redux';
 
 import Router from './Router';
 
-import { PostsProvider } from './modules/users/pages/Posts/postsContext';
+import { PostsProvider } from './shared/contexts/posts';
 import { store } from './shared/stores/configureStore';
 
 const App = () => {
