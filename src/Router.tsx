@@ -1,9 +1,13 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
-import NotFound from './pages/NotFound';
-import Users from './pages/Users';
-import Posts from './pages/Posts';
-import Tasks from './pages/Tasks';
+import Users from './modules/users/pages/Users';
+import Posts from './modules/users/pages/Posts/pages/Posts';
+import Tasks from './modules/tasks/pages/Tasks';
+
+import PageLayout from './shared/components/PageLayout';
+import { PostsProvider } from './modules/users/pages/Posts/postsContext';
+import { store } from './shared/stores/configureStore';
 
 const Router = () => {
   return (
@@ -11,11 +15,28 @@ const Router = () => {
       <Routes>
         <Route index element={<Navigate to="/users" />} />
 
-        <Route path="/users" element={<Users />} />
-        <Route path="/users/:id/posts" element={<Posts />} />
+        <Route
+          path="/users"
+          element={
+            <Provider store={store}>
+              <Users />
+            </Provider>
+          }
+        />
+        <Route
+          path="/users/:id/posts"
+          element={
+            <PostsProvider>
+              <Provider store={store}>
+                <Posts />
+              </Provider>
+            </PostsProvider>
+          }
+        />
+
         <Route path="/tasks" element={<Tasks />} />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<PageLayout title="Page not Found" />} />
       </Routes>
     </BrowserRouter>
   );
