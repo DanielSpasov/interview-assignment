@@ -1,4 +1,12 @@
-import { createContext, FC, ReactNode, useCallback, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  FC,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useState
+} from 'react';
 import axios, { AxiosError } from 'axios';
 import { message } from 'antd';
 
@@ -8,26 +16,31 @@ type PostsContextState = {
   posts: Post[];
   loading: boolean;
   error: string | null;
-  fetchPosts: (userId: number) => Promise<void>;
+  fetchPosts: (userId: string) => Promise<void>;
   updatePost: (postId: number, updatedData: Post) => Promise<void>;
   deletePost: (postId: number) => Promise<void>;
+  userId: string | null;
+  setUserId: Dispatch<SetStateAction<string | null>>;
 };
 
 export const PostsContext = createContext<PostsContextState>({
   posts: [],
   loading: true,
   error: null,
+  userId: null,
+  setUserId: () => {},
   fetchPosts: async () => {},
   updatePost: async () => {},
   deletePost: async () => {}
 });
 
 export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
+  const [userId, setUserId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchPosts = useCallback(async (userId: number) => {
+  const fetchPosts = useCallback(async (userId: string) => {
     try {
       setError(null);
       setLoading(true);
@@ -36,6 +49,7 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
         `https://jsonplaceholder.typicode.com/posts?userId=${userId}`
       );
 
+      setUserId(userId);
       setPosts(res.data);
     } catch (err) {
       message.error('Failed to fetch Posts.');
@@ -96,7 +110,16 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <PostsContext.Provider
-      value={{ fetchPosts, updatePost, deletePost, posts, loading, error }}
+      value={{
+        fetchPosts,
+        updatePost,
+        deletePost,
+        posts,
+        loading,
+        error,
+        userId,
+        setUserId
+      }}
     >
       {children}
     </PostsContext.Provider>

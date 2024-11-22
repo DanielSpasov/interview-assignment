@@ -29,7 +29,7 @@ const Posts = () => {
     [id, users]
   );
 
-  const { posts, loading, fetchPosts, updatePost, deletePost } =
+  const { posts, loading, fetchPosts, updatePost, deletePost, userId } =
     useContext(PostsContext);
 
   useEffect(() => {
@@ -37,8 +37,11 @@ const Posts = () => {
   }, [dispatch, status, id]);
 
   useEffect(() => {
-    (async () => await fetchPosts(Number(id)))();
-  }, [fetchPosts, id]);
+    (async () => {
+      if (userId === id) return;
+      await fetchPosts(id);
+    })();
+  }, [fetchPosts, id, userId]);
 
   return (
     <PageLayout
