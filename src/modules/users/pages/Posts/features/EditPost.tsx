@@ -8,10 +8,10 @@ import {
   useMemo
 } from 'react';
 
-import FormControls from '../../../../../../shared/components/FormControls';
-import Textarea from '../../../../../../shared/components/Textarea';
-import Input from '../../../../../../shared/components/Input/Input';
-import { Post } from '../../../../../../shared/types/Post';
+import FormControls from '../../../../../shared/components/FormControls';
+import Textarea from '../../../../../shared/components/Textarea';
+import Input from '../../../../../shared/components/Input/Input';
+import { Post } from '../../../../../shared/types/Post';
 
 type EditPostProps = {
   open: boolean;
