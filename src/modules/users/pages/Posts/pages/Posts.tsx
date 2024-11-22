@@ -18,7 +18,7 @@ import { Post as IPost } from '../../../../../shared/types/Post';
 import Input from '../../../../../shared/components/Input/Input';
 import Post from '../../../../../shared/components/Post';
 
-import { getUser, selectUsersState, STATUS } from '../../../usersSlice';
+import { fetchUsers, selectUsersState, STATUS } from '../../../usersSlice';
 import UserData from '../../../features/UserData';
 import { PostsContext } from '../postsContext';
 
@@ -42,11 +42,12 @@ const Posts = () => {
     useContext(PostsContext);
 
   useEffect(() => {
-    if (!user) dispatch(getUser(Number(id)));
-    (async () => await fetchPosts(Number(id)))();
-  }, [dispatch, fetchPosts, id, user]);
+    if (status === STATUS.IDLE) dispatch(fetchUsers());
+  }, [dispatch, status, id]);
 
-  console.log('rerender');
+  useEffect(() => {
+    (async () => await fetchPosts(Number(id)))();
+  }, [fetchPosts, id]);
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

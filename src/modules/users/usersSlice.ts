@@ -14,7 +14,6 @@ export const STATUS = {
 
 const initialState = {
   users: [] as User[],
-  user: null as User | null,
   status: STATUS.IDLE,
   error: null as string | null
 };
@@ -32,11 +31,7 @@ const usersSlice = createSlice({
       state.users = action.payload;
       state.error = null;
     },
-    setUser: (state, action) => {
-      state.user = action.payload;
-    },
     setUsersError: (state, action) => {
-      console.log(state, action);
       state.status = STATUS.ERROR;
       state.error = action.payload.error.message ?? 'Something went wrong.';
     },
@@ -69,7 +64,7 @@ const usersSlice = createSlice({
   }
 });
 
-export const { updateUser, loadingUsers, setUsers, setUser, setUsersError } =
+export const { updateUser, loadingUsers, setUsers, setUsersError } =
   usersSlice.actions;
 
 export const fetchUsers =
@@ -85,15 +80,6 @@ export const fetchUsers =
     } catch (error) {
       dispatch(setUsersError({ error }));
     }
-  };
-
-export const getUser =
-  (id: number) => async (dispatch: Dispatch, getState: () => RootState) => {
-    if (getState().users.status === STATUS.IDLE) {
-      dispatch(fetchUsers());
-    }
-
-    dispatch(setUser(getState().users.users.find(user => user.id === id)));
   };
 
 export const { reducer: usersReducer } = usersSlice;
