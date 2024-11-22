@@ -1,26 +1,17 @@
-import {
-  ChangeEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Col, Form, message, Modal, Row, Typography } from 'antd';
+import { Card, Col, Row, Typography } from 'antd';
+import { useParams } from 'react-router-dom';
 
-import FormControls from '../../../../../shared/components/FormControls';
 import { Dispatch } from '../../../../../shared/stores/configureStore';
 import PageLayout from '../../../../../shared/components/PageLayout';
-import Textarea from '../../../../../shared/components/Textarea';
 import { Post as IPost } from '../../../../../shared/types/Post';
-import Input from '../../../../../shared/components/Input/Input';
 import Post from '../../../../../shared/components/Post';
 
 import { fetchUsers, selectUsersState, STATUS } from '../../../usersSlice';
 import UserData from '../../../features/UserData';
 import { PostsContext } from '../postsContext';
+import { EditPost } from './features/EditPost';
 
 const { Paragraph } = Typography;
 
@@ -48,41 +39,6 @@ const Posts = () => {
   useEffect(() => {
     (async () => await fetchPosts(Number(id)))();
   }, [fetchPosts, id]);
-
-  const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setEditedPost(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    },
-    []
-  );
-
-  const handleRevert = useCallback(() => {
-    const originalPost = posts.find(post => post.id === editedPost?.id);
-    if (!originalPost) return;
-
-    setEditedPost(originalPost);
-    message.info('Changes reverted.');
-  }, [editedPost?.id, posts]);
-
-  const handleSubmit = useCallback(async () => {
-    if (!editedPost?.id) return;
-
-    await updatePost(editedPost.id, editedPost as IPost);
-    setShowModal(false);
-    setEditedPost({});
-  }, [editedPost, updatePost]);
-
-  const isChanged = useMemo(() => {
-    if (!editedPost?.id) return false;
-
-    const originalPost = posts.find(post => post.id === editedPost?.id);
-    if (!originalPost) return false;
-
-    return (
-      editedPost?.title !== originalPost?.title ||
-      editedPost?.body !== originalPost?.body
-    );
-  }, [editedPost, posts]);
 
   return (
     <PageLayout
@@ -115,42 +71,14 @@ const Posts = () => {
         )}
       </Row>
 
-      <Modal
-        title="Edit Post"
+      <EditPost
         open={showModal}
-        onCancel={() => {
-          setShowModal(false);
-          setEditedPost({});
-        }}
-        footer={null}
-      >
-        <Form>
-          <Input
-            label="Title"
-            name="title"
-            onChange={handleInputChange}
-            value={editedPost?.title}
-          />
-
-          <Textarea
-            label="Body"
-            name="body"
-            onChange={handleInputChange}
-            value={editedPost?.body}
-          />
-        </Form>
-
-        <FormControls
-          disableRevert={!isChanged}
-          disableSubmit={!isChanged}
-          onSubmit={handleSubmit}
-          onRevert={handleRevert}
-          onCancel={() => {
-            setEditedPost({});
-            setShowModal(false);
-          }}
-        />
-      </Modal>
+        setOpen={setShowModal}
+        updatePost={updatePost}
+        editedPost={editedPost}
+        setEditedPost={setEditedPost}
+        originalPost={posts.find(post => post.id === editedPost?.id)}
+      />
     </PageLayout>
   );
 };
