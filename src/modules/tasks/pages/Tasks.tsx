@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import PageLayout from '../../../shared/components/PageLayout';
-import TasksTable from '../components/TasksTable';
+import TasksTable from '../components/Table';
 import Pagination from '../components/Pagination';
 import Filters from '../components/Filters';
 
