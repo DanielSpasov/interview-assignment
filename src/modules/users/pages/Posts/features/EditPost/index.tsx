@@ -1,28 +1,14 @@
+import { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
 import { Form, message, Modal } from 'antd';
-import {
-  ChangeEvent,
-  Dispatch,
-  FC,
-  SetStateAction,
-  useCallback,
-  useMemo
-} from 'react';
 
-import FormControls from '../../../../../shared/components/FormControls';
-import Textarea from '../../../../../shared/components/Textarea';
-import Input from '../../../../../shared/components/Input/Input';
-import { Post } from '../../../../../shared/types/Post';
+import FormControls from '../../../../../../shared/components/FormControls';
+import Textarea from '../../../../../../shared/components/Textarea';
+import Input from '../../../../../../shared/components/Input/Input';
+import { Post } from '../../../../../../shared/types/Post';
 
-type EditPostProps = {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  updatePost: (id: number, data: Post) => Promise<void>;
-  editedPost: Partial<Post>;
-  setEditedPost: Dispatch<SetStateAction<Partial<Post>>>;
-  originalPost?: Post;
-};
+import { EditPostProps } from './types';
 
-export const EditPost: FC<EditPostProps> = ({
+const EditPost: FC<EditPostProps> = ({
   open,
   setOpen,
   updatePost,
@@ -100,3 +86,5 @@ export const EditPost: FC<EditPostProps> = ({
     </Modal>
   );
 };
+
+export default memo(EditPost);

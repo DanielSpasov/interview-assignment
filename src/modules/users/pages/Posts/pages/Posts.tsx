@@ -1,19 +1,17 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Col, Row, Typography } from 'antd';
 import { useParams } from 'react-router-dom';
+import { Card } from 'antd';
 
 import { Dispatch } from '../../../../../shared/stores/configureStore';
 import PageLayout from '../../../../../shared/components/PageLayout';
+import { PostsContext } from '../../../../../shared/contexts/posts';
 import { Post as IPost } from '../../../../../shared/types/Post';
-import Post from '../../../../../shared/components/Post';
 
 import { fetchUsers, selectUsersState, STATUS } from '../../../slices/users';
 import UserData from '../../../features/EditUser';
-import { PostsContext } from '../../../../../shared/contexts/posts';
-import { EditPost } from '../features/EditPost';
-
-const { Paragraph } = Typography;
+import EditPost from '../features/EditPost';
+import List from './sections/List';
 
 const Posts = () => {
   const { id = '0' } = useParams();
@@ -53,26 +51,15 @@ const Posts = () => {
         <UserData id={Number(id)} />
       </Card>
 
-      <Row gutter={[16, 16]}>
-        {posts.length ? (
-          posts.map(post => (
-            <Col key={post.id} xs={24} sm={12} md={8}>
-              <Post
-                {...post}
-                onDelete={deletePost}
-                onClick={() => {
-                  setShowModal(true);
-                  setEditedPost(post);
-                }}
-              />
-            </Col>
-          ))
-        ) : (
-          <Paragraph style={{ margin: '0 auto' }}>
-            {user?.name} has no posts.
-          </Paragraph>
-        )}
-      </Row>
+      <List
+        posts={posts}
+        onDelete={deletePost}
+        onClick={(post: IPost) => {
+          setShowModal(true);
+          setEditedPost(post);
+        }}
+        username={user?.name}
+      />
 
       <EditPost
         open={showModal}
