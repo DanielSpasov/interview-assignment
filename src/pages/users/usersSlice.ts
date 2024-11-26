@@ -30,28 +30,14 @@ const usersSlice = createSlice({
       state.error = action.payload.error.message ?? 'Something went wrong.';
     },
     updateUser: (state, action) => {
-      const { id, updatedUser } = action.payload;
-      const index = state.users.findIndex(user => user.id === id);
+      const index = state.users.findIndex(
+        user => user.id === action.payload.id
+      );
 
       if (index !== -1) {
         state.users[index] = {
           ...state.users[index],
-          username: updatedUser.username,
-          email: updatedUser.email,
-          phone: updatedUser.phone,
-          website: updatedUser.website,
-          address: {
-            city: updatedUser.city,
-            street: updatedUser.street,
-            suite: updatedUser.suite,
-            zipcode: updatedUser.zipcode,
-            geo: state.users[index].address.geo
-          },
-          company: {
-            name: updatedUser.companyName,
-            bs: updatedUser.businessService,
-            catchPhrase: updatedUser.catchPhrase
-          }
+          ...action.payload.updatedUser
         };
       }
     }

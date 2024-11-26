@@ -10,7 +10,7 @@ import { Post as IPost } from '../../shared/types/Post';
 import { STATUS } from '../../shared/utils/constants';
 
 import { fetchUsers, selectUsersState } from '../users/usersSlice';
-import EditUser from '../users/features/EditUser/EditUser';
+import EditUser from '../../shared/features/EditUser/EditUser';
 import List from '../../pages/posts/sections/List';
 import EditPost from './features/EditPost';
 

@@ -5,10 +5,10 @@ import { Collapse } from 'antd';
 
 import { Dispatch, RootState } from '../../shared/stores/configureStore';
 import PageLayout from '../../shared/components/PageLayout/PageLayout';
+import EditUser from '../../shared/features/EditUser/EditUser';
 import { STATUS } from '../../shared/utils/constants';
 
 import { selectUsersState, fetchUsers } from './usersSlice';
-import EditUser from './features/EditUser/EditUser';
 
 const Users = () => {
   const { users, status, error } = useSelector((state: RootState) =>

@@ -1,13 +1,11 @@
-import { UserData } from './types';
+import { User } from '../types/User';
 
-export const validateUserData = (data: Partial<UserData>) => {
-  const {
-    username = data.username?.trim(),
-    email = data.email?.trim(),
-    street = data.street?.trim(),
-    suite = data.suite?.trim(),
-    city = data.city?.trim()
-  } = data;
+export const validateUserData = (data: User) => {
+  const username = data.username.trim();
+  const email = data.email.trim();
+  const street = data.address.street.trim();
+  const suite = data.address.suite.trim();
+  const city = data.address.city.trim();
 
   if (!username || !email || !street || !suite || !city) {
     return 'Please fill in all required fields.';
