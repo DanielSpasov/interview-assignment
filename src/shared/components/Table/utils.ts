@@ -1,9 +1,4 @@
-import {
-  Filter,
-  FiltersObj,
-  FilterType,
-  SelectValueType
-} from './features/types';
+import { Filter, FiltersObj, FilterType, SelectValueType } from './types';
 
 export const PAGE_SIZE = 10;
 

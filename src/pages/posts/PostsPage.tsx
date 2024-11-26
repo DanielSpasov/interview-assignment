@@ -4,12 +4,12 @@ import { useParams } from 'react-router-dom';
 import { Card } from 'antd';
 
 import { Dispatch } from '../../shared/stores/configureStore';
-import PageLayout from '../../shared/components/PageLayout';
+import PageLayout from '../../shared/components/PageLayout/PageLayout';
 import { PostsContext } from '../../shared/contexts/posts';
 import { Post as IPost } from '../../shared/types/Post';
 
 import { fetchUsers, selectUsersState, STATUS } from '../users/usersSlice';
-import UserData from '../users/features/EditUser';
+import EditUser from '../users/features/EditUser/EditUser';
 import List from '../../pages/posts/sections/List';
 import EditPost from './features/EditPost';
 
@@ -48,7 +48,7 @@ const Posts = () => {
       error={error}
     >
       <Card style={{ margin: '1em 0' }}>
-        <UserData id={Number(id)} />
+        <EditUser id={Number(id)} />
       </Card>
 
       <List

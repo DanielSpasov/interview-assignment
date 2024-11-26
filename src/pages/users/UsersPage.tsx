@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 import { Collapse } from 'antd';
 
 import { Dispatch, RootState } from '../../shared/stores/configureStore';
-import PageLayout from '../../shared/components/PageLayout';
+import PageLayout from '../../shared/components/PageLayout/PageLayout';
 
 import { selectUsersState, fetchUsers, STATUS } from './usersSlice';
-import UserData from './features/EditUser';
+import EditUser from './features/EditUser/EditUser';
 
 const Users = () => {
   const { users, status, error } = useSelector((state: RootState) =>
@@ -37,7 +37,7 @@ const Users = () => {
                 <Link to={`/users/${user.id}/posts`}>See Posts</Link>
               </div>
             ),
-            children: <UserData id={user.id} key={user.id} />
+            children: <EditUser id={user.id} key={user.id} />
           }))}
           accordion
         />

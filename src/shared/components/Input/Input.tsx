@@ -1,7 +1,11 @@
+import { InputProps as AntInputProps } from 'antd/lib/input';
 import { Form, Input as AntInput } from 'antd';
-import { FC, memo } from 'react';
+import { ChangeEvent, FC, memo } from 'react';
 
-import { InputProps } from './types';
+export type InputProps = {
+  label: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+} & AntInputProps;
 
 const Input: FC<InputProps> = ({ onChange, label, ...rest }) => {
   return (

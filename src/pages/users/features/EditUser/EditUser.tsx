@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { Card, Row, Col, Form, message } from 'antd';
 
-import FormControls from '../../../../shared/components/FormControls';
+import FormControls from '../../../../shared/components/FormControls/FromControls';
 import Input from '../../../../shared/components/Input/Input';
 
 import { selectUsersState, updateUser } from '../../usersSlice';

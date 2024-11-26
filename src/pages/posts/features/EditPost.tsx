@@ -2,8 +2,8 @@ import { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Form, message, Modal } from 'antd';
 
-import FormControls from '../../../shared/components/FormControls';
-import Textarea from '../../../shared/components/Textarea';
+import FormControls from '../../../shared/components/FormControls/FromControls';
+import Textarea from '../../../shared/components/Textarea/Textarea';
 import Input from '../../../shared/components/Input/Input';
 import { Post } from '../../../shared/types/Post';
 

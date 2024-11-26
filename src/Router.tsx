@@ -4,7 +4,7 @@ import Users from './pages/users/UsersPage';
 import Posts from './pages/posts/PostsPage';
 import Tasks from './pages/tasks/TasksPage';
 
-import PageLayout from './shared/components/PageLayout';
+import PageLayout from './shared/components/PageLayout/PageLayout';
 
 const Router = () => {
   return (

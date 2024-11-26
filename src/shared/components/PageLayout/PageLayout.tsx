@@ -1,8 +1,14 @@
-import { FC, memo, useEffect } from 'react';
+import { FC, memo, useEffect, ReactNode } from 'react';
 import { Alert, Typography } from 'antd';
 
-import { PageLayoutProps } from './types';
-import Navbar from '../Navbar';
+import Navbar from '../Navbar/Navbar';
+
+export type PageLayoutProps = {
+  title: string;
+  loading?: boolean;
+  error?: string | null;
+  children?: ReactNode;
+};
 
 const { Title } = Typography;
 

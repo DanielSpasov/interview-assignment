@@ -3,10 +3,10 @@ import { Button } from 'antd';
 import { memo } from 'react';
 
 import { COMPONENT_TYPE } from '../utils';
-import { FiltersProps } from './types';
+import { FiltersProps } from '../types';
 
-import Select from './components/Select';
-import Input from './components/Input';
+import Select from '../components/Select';
+import Input from '../components/Input';
 
 function Filters<T>({
   config,

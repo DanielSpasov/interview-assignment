@@ -1,4 +1,4 @@
-import { Filter } from '../../shared/components/Table/features/types';
+import { Filter } from '../../shared/components/Table/types';
 import { Task } from '../../shared/types/Task';
 
 export const filters: Filter<Task>[] = [

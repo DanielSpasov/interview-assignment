@@ -7,7 +7,14 @@ import {
 import { FC, memo } from 'react';
 import { Button } from 'antd';
 
-import { FormControlsProps } from './types';
+export type FormControlsProps = {
+  disableSubmit: boolean;
+  disableRevert: boolean;
+  onRevert?: () => void;
+  onSubmit?: () => void;
+  onEdit?: () => void;
+  onCancel?: () => void;
+};
 
 const FormControls: FC<FormControlsProps> = ({
   onCancel,

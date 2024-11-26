@@ -1,7 +1,7 @@
 import { Table as AntTable } from 'antd';
 import { memo, useState } from 'react';
 
-import Filters from './features';
+import Filters from './features/Filters';
 
 import { useTableData } from './hooks/useTableData';
 import Pagination from './components/Pagination';
@@ -39,12 +39,10 @@ function Table<T extends { id: number }>({
 
       <AntTable
         dataSource={currentData}
-        columns={columns.map(col => {
-          return {
-            ...col,
-            render: col?.render?.(updateData)
-          };
-        })}
+        columns={columns.map(col => ({
+          ...col,
+          render: col?.render?.(updateData)
+        }))}
         loading={status === STATUS.LOADING}
         rowKey="id"
         pagination={false}
