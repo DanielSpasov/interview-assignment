@@ -3,14 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Card } from 'antd';
 
-import { Dispatch } from '../../../../../shared/stores/configureStore';
-import PageLayout from '../../../../../shared/components/PageLayout';
-import { PostsContext } from '../../../../../shared/contexts/posts';
-import { Post as IPost } from '../../../../../shared/types/Post';
+import { Dispatch } from '../../../../shared/stores/configureStore';
+import PageLayout from '../../../../shared/components/PageLayout';
+import { PostsContext } from '../../../../shared/contexts/posts';
+import { Post as IPost } from '../../../../shared/types/Post';
 
-import { fetchUsers, selectUsersState, STATUS } from '../../../slices/users';
-import UserData from '../../../features/EditUser';
-import EditPost from '../features/EditPost';
+import { fetchUsers, selectUsersState, STATUS } from '../../slices/users';
+import UserData from '../../features/EditUser';
+import EditPost from './features/EditPost';
 import List from './sections/List';
 
 const Posts = () => {

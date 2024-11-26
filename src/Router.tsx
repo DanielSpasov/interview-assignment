@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
 import Users from './modules/users/pages/Users';
-import Posts from './modules/users/pages/Posts/pages/Posts';
+import Posts from './modules/users/pages/Posts';
 import Tasks from './modules/tasks/pages/Tasks';
 
 import PageLayout from './shared/components/PageLayout';

@@ -1,9 +1,9 @@
 import { Col, Row, Typography } from 'antd';
 import { FC, memo } from 'react';
 
-import { Post as IPost } from '../../../../../../shared/types/Post';
+import { Post as IPost } from '../../../../../shared/types/Post';
 
-import Post from '../../components/Post';
+import Post from '../components/Post';
 
 type ListProps = {
   posts: IPost[];
