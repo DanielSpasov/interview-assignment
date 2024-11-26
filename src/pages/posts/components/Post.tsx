@@ -1,10 +1,15 @@
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FC, memo, MouseEventHandler } from 'react';
 import { Button, Card, Popconfirm } from 'antd';
-import { FC, memo } from 'react';
 
-import { PostProps } from './types';
+import { Post as IPost } from '../../../shared/types/Post';
 
-const Post: FC<PostProps> = ({ title, body, id, onClick, onDelete }) => {
+export type PostProps = {
+  onEdit: MouseEventHandler<HTMLButtonElement>;
+  onDelete: (id: number) => Promise<void>;
+} & IPost;
+
+const Post: FC<PostProps> = ({ title, body, id, onEdit, onDelete }) => {
   return (
     <Card title={title} hoverable>
       <Card.Meta description={body} />
@@ -17,7 +22,7 @@ const Post: FC<PostProps> = ({ title, body, id, onClick, onDelete }) => {
           marginTop: '10px'
         }}
       >
-        <Button onClick={onClick} icon={<EditOutlined />}>
+        <Button onClick={onEdit} icon={<EditOutlined />}>
           Edit
         </Button>
 

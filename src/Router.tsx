@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 
-import Users from './modules/users/pages/Users';
-import Posts from './modules/users/pages/Posts';
-import Tasks from './modules/tasks/pages/Tasks';
+import Users from './pages/users/UsersPage';
+import Posts from './pages/posts/PostsPage';
+import Tasks from './pages/tasks/TasksPage';
 
 import PageLayout from './shared/components/PageLayout';
 

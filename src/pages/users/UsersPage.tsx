@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { Collapse } from 'antd';
 
-import { Dispatch, RootState } from '../../../shared/stores/configureStore';
-import PageLayout from '../../../shared/components/PageLayout';
+import { Dispatch, RootState } from '../../shared/stores/configureStore';
+import PageLayout from '../../shared/components/PageLayout';
 
-import { selectUsersState, fetchUsers, STATUS } from '../slices/users';
-import UserData from '../features/EditUser';
+import { selectUsersState, fetchUsers, STATUS } from './usersSlice';
+import UserData from './features/EditUser';
 
 const Users = () => {
   const { users, status, error } = useSelector((state: RootState) =>

@@ -1,7 +1,7 @@
 import { Checkbox } from 'antd';
 
-import { Column } from '../../../../shared/components/Table/types';
-import { Task } from '../../../../shared/types/Task';
+import { Column } from '../../shared/components/Table/types';
+import { Task } from '../../shared/types/Task';
 
 export const columns: Column<Task>[] = [
   {

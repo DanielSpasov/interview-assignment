@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { Card } from 'antd';
 
-import { Dispatch } from '../../../../shared/stores/configureStore';
-import PageLayout from '../../../../shared/components/PageLayout';
-import { PostsContext } from '../../../../shared/contexts/posts';
-import { Post as IPost } from '../../../../shared/types/Post';
+import { Dispatch } from '../../shared/stores/configureStore';
+import PageLayout from '../../shared/components/PageLayout';
+import { PostsContext } from '../../shared/contexts/posts';
+import { Post as IPost } from '../../shared/types/Post';
 
-import { fetchUsers, selectUsersState, STATUS } from '../../slices/users';
-import UserData from '../../features/EditUser';
+import { fetchUsers, selectUsersState, STATUS } from '../users/usersSlice';
+import UserData from '../users/features/EditUser';
+import List from '../../pages/posts/sections/List';
 import EditPost from './features/EditPost';
-import List from './sections/List';
 
 const Posts = () => {
   const { id = '0' } = useParams();
@@ -54,7 +54,7 @@ const Posts = () => {
       <List
         posts={posts}
         onDelete={deletePost}
-        onClick={(post: IPost) => {
+        onEdit={post => {
           setShowModal(true);
           setEditedPost(post);
         }}
