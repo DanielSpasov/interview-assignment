@@ -2,9 +2,9 @@ import { ReactNode } from 'react';
 
 import { Dispatch, SetStateAction } from 'react';
 
-import { TYPE, COMPONENT_TYPE } from './utils';
+import { FILTER_TYPE, COMPONENT_TYPE } from '../../utils/constants';
 
-export type FilterType = keyof typeof TYPE;
+export type FilterType = keyof typeof FILTER_TYPE;
 type ComponentType = keyof typeof COMPONENT_TYPE;
 
 export type SelectValueType = string | boolean | undefined;

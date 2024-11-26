@@ -3,14 +3,8 @@ import axios from 'axios';
 
 import { RootState } from '../../shared/stores/configureStore';
 import { Dispatch } from '../../shared/stores/configureStore';
+import { STATUS } from '../../shared/utils/constants';
 import { User } from '../../shared/types/User';
-
-export const STATUS = {
-  IDLE: 'IDLE',
-  LOADING: 'LOADING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
-};
 
 const initialState = {
   users: [] as User[],

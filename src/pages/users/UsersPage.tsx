@@ -5,8 +5,9 @@ import { Collapse } from 'antd';
 
 import { Dispatch, RootState } from '../../shared/stores/configureStore';
 import PageLayout from '../../shared/components/PageLayout/PageLayout';
+import { STATUS } from '../../shared/utils/constants';
 
-import { selectUsersState, fetchUsers, STATUS } from './usersSlice';
+import { selectUsersState, fetchUsers } from './usersSlice';
 import EditUser from './features/EditUser/EditUser';
 
 const Users = () => {

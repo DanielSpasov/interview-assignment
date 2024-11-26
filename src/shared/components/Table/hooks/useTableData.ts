@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AxiosError } from 'axios';
 import { message } from 'antd';
 
-import { FiltersObj, FilterType, SelectValueType } from '../features/types';
+import { FiltersObj, FilterType, SelectValueType } from '../types';
+import { STATUS, PAGE_SIZE } from '../../../utils/constants';
 import { PaginationProps } from '../components/Pagination';
-import { STATUS, PAGE_SIZE, filter } from '../utils';
+import { filter } from '../../../utils/filters';
 import { TableProps } from '../types';
 
 type UseTableDataProps<T> = {

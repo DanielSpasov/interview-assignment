@@ -2,7 +2,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { memo } from 'react';
 
-import { COMPONENT_TYPE } from '../utils';
+import { COMPONENT_TYPE } from '../../../../shared/utils/constants';
 import { FiltersProps } from '../types';
 
 import Select from '../components/Select';

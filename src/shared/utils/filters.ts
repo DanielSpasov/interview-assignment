@@ -1,23 +1,9 @@
-import { Filter, FiltersObj, FilterType, SelectValueType } from './types';
-
-export const PAGE_SIZE = 10;
-
-export const COMPONENT_TYPE = {
-  SELECT: 'SELECT',
-  INPUT: 'INPUT'
-};
-
-export const TYPE = {
-  EXACT: 'EXACT',
-  BOOLEAN: 'BOOLEAN',
-  INCLUSION: 'INCLUSION'
-};
-
-export const STATUS = {
-  LOADING: 'LOADING',
-  SUCCESS: 'SUCCESS',
-  ERROR: 'ERROR'
-};
+import {
+  Filter,
+  FiltersObj,
+  FilterType,
+  SelectValueType
+} from '../components/Table/types';
 
 export const filtersToObj = <T>(config: Filter<T>[]): FiltersObj<T> =>
   config.reduce(
