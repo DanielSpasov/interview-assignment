@@ -10,7 +10,7 @@ import {
 import axios, { AxiosError } from 'axios';
 import { message } from 'antd';
 
-import { Post } from '../types/Post';
+import { Post } from '../../shared/types/Post';
 
 type PostsContextState = {
   posts: Post[];
@@ -23,7 +23,7 @@ type PostsContextState = {
   setUserId: Dispatch<SetStateAction<string | null>>;
 };
 
-export const PostsContext = createContext<PostsContextState>({
+const initialState = {
   posts: [],
   loading: true,
   error: null,
@@ -32,7 +32,9 @@ export const PostsContext = createContext<PostsContextState>({
   fetchPosts: async () => {},
   updatePost: async () => {},
   deletePost: async () => {}
-});
+};
+
+export const PostsContext = createContext<PostsContextState>(initialState);
 
 export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [userId, setUserId] = useState<string | null>(null);

@@ -5,7 +5,7 @@ import { Card } from 'antd';
 
 import PageLayout from '../../shared/components/PageLayout/PageLayout';
 import { Dispatch } from '../../shared/stores/configureStore';
-import { PostsContext } from '../../shared/contexts/posts';
+import { PostsContext } from './postsContext';
 import { Post as IPost } from '../../shared/types/Post';
 import { STATUS } from '../../shared/utils/constants';
 
