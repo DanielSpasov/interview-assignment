@@ -17,7 +17,7 @@ function Table<T extends { id: number }>({
   const [filters, setFilters] = useState(filtersToObj(filtersConfig));
   const [page, setPage] = useState(1);
 
-  const { status, currentData, filteredData, updateData } = useTableData<T>({
+  const { status, currentData, total, updateData } = useTableData<T>({
     fetchFn,
     filters,
     pagination: {
@@ -31,7 +31,10 @@ function Table<T extends { id: number }>({
       <Filters<T>
         config={filtersConfig}
         filters={filters}
-        setFilters={setFilters}
+        setFilters={e => {
+          setFilters(e);
+          setPage(1);
+        }}
         onClearAll={() => {
           setFilters(filtersToObj(filtersConfig));
           setPage(1);
@@ -49,11 +52,7 @@ function Table<T extends { id: number }>({
         pagination={false}
       />
 
-      <Pagination
-        current={page}
-        onChange={setPage}
-        total={filteredData.length}
-      />
+      <Pagination current={page} onChange={setPage} total={total} />
     </article>
   );
 }

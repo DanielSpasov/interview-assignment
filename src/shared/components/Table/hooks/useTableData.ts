@@ -45,28 +45,31 @@ export const useTableData = <T extends { id: number }>({
     })();
   }, [fetchFn]);
 
-  const filteredData = useMemo(() => {
-    const allData = data.map(item => {
-      if (!dataUpdates.has(item.id)) return item;
-      return {
-        ...item,
-        ...dataUpdates.get(item.id)
-      };
-    });
+  const allData = useMemo(
+    () =>
+      data.map(item => {
+        if (!dataUpdates.has(item.id)) return item;
+        return { ...item, ...dataUpdates.get(item.id) };
+      }),
+    [data, dataUpdates]
+  );
 
-    return allData.filter(item =>
-      (
-        Object.entries(filters) as [
-          keyof T,
-          { type: FilterType; value: SelectValueType }
-        ][]
-      )
-        .map(([key, { type, value }]) =>
-          filter[type](value, item[key] as SelectValueType)
+  const filteredData = useMemo(
+    () =>
+      allData.filter(item =>
+        (
+          Object.entries(filters) as [
+            keyof T,
+            { type: FilterType; value: SelectValueType }
+          ][]
         )
-        .every(Boolean)
-    );
-  }, [filters, dataUpdates, data]);
+          .map(([key, { type, value }]) =>
+            filter[type](value, item[key] as SelectValueType)
+          )
+          .every(Boolean)
+      ),
+    [filters, allData]
+  );
 
   const currentData = useMemo(
     () =>
@@ -74,7 +77,7 @@ export const useTableData = <T extends { id: number }>({
         (pagination.current - 1) * PAGE_SIZE,
         pagination.current * PAGE_SIZE
       ),
-    [filteredData, pagination]
+    [pagination, filteredData]
   );
 
   const updateData = useCallback(
@@ -89,9 +92,8 @@ export const useTableData = <T extends { id: number }>({
   );
 
   return {
-    data,
+    total: filteredData.length,
     currentData,
-    filteredData,
     updateData,
     status,
     error

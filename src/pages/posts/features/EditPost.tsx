@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, memo, useCallback, useMemo } from 'react';
+import { FC, memo, useCallback, useMemo } from 'react';
 import { Dispatch, SetStateAction } from 'react';
 import { Form, message, Modal } from 'antd';
 
@@ -24,13 +24,6 @@ const EditPost: FC<EditPostProps> = ({
   setEditedPost,
   originalPost
 }) => {
-  const handleInputChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      setEditedPost(prev => ({ ...prev, [e.target.name]: e.target.value }));
-    },
-    [setEditedPost]
-  );
-
   const handleRevert = useCallback(() => {
     if (!originalPost) return;
 
@@ -69,14 +62,18 @@ const EditPost: FC<EditPostProps> = ({
         <Input
           label="Title"
           name="title"
-          onChange={handleInputChange}
+          onChange={e =>
+            setEditedPost(prev => ({ ...prev, title: e.target.value }))
+          }
           value={editedPost?.title}
         />
 
         <Textarea
           label="Body"
           name="body"
-          onChange={handleInputChange}
+          onChange={e =>
+            setEditedPost(prev => ({ ...prev, body: e.target.value }))
+          }
           value={editedPost?.body}
         />
       </Form>

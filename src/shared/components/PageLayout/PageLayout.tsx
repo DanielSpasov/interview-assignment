@@ -1,4 +1,4 @@
-import { FC, memo, useEffect, ReactNode } from 'react';
+import { FC, useEffect, ReactNode } from 'react';
 import { Alert, Typography } from 'antd';
 
 import Navbar from '../Navbar/Navbar';
@@ -48,4 +48,4 @@ const PageLayout: FC<PageLayoutProps> = ({
   );
 };
 
-export default memo(PageLayout);
+export default PageLayout;
