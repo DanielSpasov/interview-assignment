@@ -49,7 +49,7 @@ const Posts = () => {
       error={error}
     >
       <Card style={{ margin: '1em 0' }}>
-        <EditUser id={Number(id)} />
+        <EditUser user={user!} />
       </Card>
 
       <List

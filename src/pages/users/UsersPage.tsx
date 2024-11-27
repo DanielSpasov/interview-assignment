@@ -38,7 +38,7 @@ const Users = () => {
                 <Link to={`/users/${user.id}/posts`}>See Posts</Link>
               </div>
             ),
-            children: <EditUser id={user.id} key={user.id} />
+            children: <EditUser user={user} key={user.id} />
           }))}
           accordion
         />
