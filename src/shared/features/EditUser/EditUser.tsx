@@ -1,9 +1,9 @@
-import { FC, memo, useMemo, useState } from 'react';
+import { ChangeEvent, FC, memo, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Form, message } from 'antd';
 
-import { updateUser } from '../../../pages/users/usersSlice';
 import FormControls from '../../components/FormControls/FromControls';
+import { updateUser } from '../../../pages/users/usersSlice';
 import { validateUserData } from './validations';
 import { User } from '../../types/User';
 
@@ -35,23 +35,52 @@ const EditUser: FC<{ user: User }> = ({ user }) => {
     message.info('Changes reverted.');
   };
 
+  const handleGeneralUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditedUser(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleAddressUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditedUser(prev => ({
+      ...prev,
+      address: {
+        ...prev.address,
+        [e.target.name]: e.target.value
+      }
+    }));
+  };
+
+  const handleCompanyUpdate = (e: ChangeEvent<HTMLInputElement>) => {
+    setEditedUser(prev => ({
+      ...prev,
+      company: {
+        ...prev.company,
+        [e.target.name]: e.target.value
+      }
+    }));
+  };
+
   return (
     <Form>
       <Row gutter={16}>
         <GeneralInformation
-          setEditedUser={setEditedUser}
-          isEditing={isEditing}
-          user={editedUser}
+          onChange={handleGeneralUpdate}
+          disabled={!isEditing}
+          data={{
+            email: editedUser.email,
+            phone: editedUser.phone,
+            username: editedUser.username,
+            website: editedUser.website
+          }}
         />
         <Address
-          setEditedUser={setEditedUser}
-          isEditing={isEditing}
-          user={editedUser}
+          onChange={handleAddressUpdate}
+          disabled={!isEditing}
+          data={editedUser.address}
         />
         <Company
-          setEditedUser={setEditedUser}
-          isEditing={isEditing}
-          user={editedUser}
+          onChange={handleCompanyUpdate}
+          disabled={!isEditing}
+          data={editedUser.company}
         />
       </Row>
 

@@ -1,59 +1,40 @@
-import { FC, Dispatch, SetStateAction } from 'react';
+import { FC, ChangeEventHandler } from 'react';
 import { Card, Col } from 'antd';
 
 import Input from '../../../components/Input/Input';
 import { User } from '../../../types/User';
 
 type CompanyProps = {
-  setEditedUser: Dispatch<SetStateAction<User>>;
-  isEditing: boolean;
-  user?: User;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  disabled: boolean;
+  data?: User['company'];
 };
 
-export const Company: FC<CompanyProps> = ({
-  setEditedUser,
-  isEditing,
-  user
-}) => {
+export const Company: FC<CompanyProps> = ({ onChange, disabled, data }) => {
   return (
     <Col span={8}>
       <Card title="Company">
         <Input
           label="Name"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              company: { ...prev.company, name: e.target.value }
-            }))
-          }
-          value={user?.company.name}
-          disabled={!isEditing}
-          name="companyName"
+          onChange={onChange}
+          value={data?.name}
+          disabled={disabled}
+          name="name"
         />
 
         <Input
           label="Business Service"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              company: { ...prev.company, bs: e.target.value }
-            }))
-          }
-          value={user?.company.bs}
-          disabled={!isEditing}
-          name="businessService"
+          onChange={onChange}
+          value={data?.bs}
+          disabled={disabled}
+          name="bs"
         />
 
         <Input
           label="Catch Phrase"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              company: { ...prev.company, catchPhrase: e.target.value }
-            }))
-          }
-          value={user?.company.catchPhrase}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.catchPhrase}
+          disabled={disabled}
           name="catchPhrase"
         />
       </Card>

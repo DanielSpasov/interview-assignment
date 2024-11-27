@@ -1,75 +1,51 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 import { Card, Col } from 'antd';
 
 import Input from '../../../components/Input/Input';
 import { User } from '../../../types/User';
 
 type AddressProps = {
-  setEditedUser: Dispatch<SetStateAction<User>>;
-  isEditing: boolean;
-  user?: User;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  disabled: boolean;
+  data?: User['address'];
 };
 
-export const Address: FC<AddressProps> = ({
-  setEditedUser,
-  isEditing,
-  user
-}) => {
+export const Address: FC<AddressProps> = ({ onChange, disabled, data }) => {
   return (
     <Col span={8}>
       <Card title="Address">
         <Input
           label="City"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              address: { ...prev.address, city: e.target.value }
-            }))
-          }
-          value={user?.address?.city}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.city}
+          disabled={disabled}
           name="city"
           required
         />
 
         <Input
           label="Street"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              address: { ...prev.address, street: e.target.value }
-            }))
-          }
-          value={user?.address?.street}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.street}
+          disabled={disabled}
           name="street"
           required
         />
 
         <Input
           label="Suite"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              address: { ...prev.address, suite: e.target.value }
-            }))
-          }
-          value={user?.address?.suite}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.suite}
+          disabled={disabled}
           name="suite"
           required
         />
 
         <Input
           label="Zipcode"
-          onChange={e =>
-            setEditedUser(prev => ({
-              ...prev,
-              address: { ...prev.address, zipcode: e.target.value }
-            }))
-          }
-          value={user?.address?.zipcode}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.zipcode}
+          disabled={disabled}
           name="zipcode"
         />
       </Card>

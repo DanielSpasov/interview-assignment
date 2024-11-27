@@ -1,19 +1,19 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 import { Card, Col } from 'antd';
 
 import Input from '../../../components/Input/Input';
 import { User } from '../../../types/User';
 
 type GeneralInformationProps = {
-  setEditedUser: Dispatch<SetStateAction<User>>;
-  isEditing: boolean;
-  user?: User;
+  onChange: ChangeEventHandler<HTMLInputElement>;
+  disabled: boolean;
+  data: Pick<User, 'username' | 'email' | 'phone' | 'website'>;
 };
 
 export const GeneralInformation: FC<GeneralInformationProps> = ({
-  setEditedUser,
-  isEditing,
-  user
+  onChange,
+  disabled,
+  data
 }) => {
   return (
     <Col span={8}>
@@ -21,21 +21,17 @@ export const GeneralInformation: FC<GeneralInformationProps> = ({
         <Input
           label="Username"
           name="username"
-          onChange={e =>
-            setEditedUser(prev => ({ ...prev, username: e.target.value }))
-          }
-          disabled={!isEditing}
-          value={user?.username}
+          onChange={onChange}
+          disabled={disabled}
+          value={data?.username}
           required
         />
 
         <Input
           label="Email"
-          onChange={e =>
-            setEditedUser(prev => ({ ...prev, email: e.target.value }))
-          }
-          value={user?.email}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.email}
+          disabled={disabled}
           name="email"
           type="email"
           required
@@ -43,21 +39,17 @@ export const GeneralInformation: FC<GeneralInformationProps> = ({
 
         <Input
           label="Phone"
-          onChange={e =>
-            setEditedUser(prev => ({ ...prev, phone: e.target.value }))
-          }
-          value={user?.phone}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.phone}
+          disabled={disabled}
           name="phone"
         />
 
         <Input
           label="Website"
-          onChange={e =>
-            setEditedUser(prev => ({ ...prev, website: e.target.value }))
-          }
-          value={user?.website}
-          disabled={!isEditing}
+          onChange={onChange}
+          value={data?.website}
+          disabled={disabled}
           name="website"
         />
       </Card>
