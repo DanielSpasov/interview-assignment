@@ -16,7 +16,7 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    loadingUsers: state => {
+    setLoading: state => {
       state.status = STATUS.LOADING;
       state.error = null;
     },
@@ -25,7 +25,7 @@ const usersSlice = createSlice({
       state.users = action.payload;
       state.error = null;
     },
-    setUsersError: (state, action) => {
+    setError: (state, action) => {
       state.status = STATUS.ERROR;
       state.error = action.payload.error.message ?? 'Something went wrong.';
     },
@@ -44,21 +44,21 @@ const usersSlice = createSlice({
   }
 });
 
-export const { updateUser, loadingUsers, setUsers, setUsersError } =
+export const { updateUser, setLoading, setUsers, setError } =
   usersSlice.actions;
 
 export const fetchUsers =
   () => async (dispatch: Dispatch, getState: () => RootState) => {
     if (getState().users.status === STATUS.SUCCESS) return;
 
-    dispatch(loadingUsers());
+    dispatch(setLoading());
     try {
       const res = await axios.get<User[]>(
         'https://jsonplaceholder.typicode.com/users'
       );
       dispatch(setUsers(res.data));
     } catch (error) {
-      dispatch(setUsersError({ error }));
+      dispatch(setError({ error }));
     }
   };
 
