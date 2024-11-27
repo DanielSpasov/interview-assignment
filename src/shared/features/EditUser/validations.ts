@@ -1,4 +1,4 @@
-import { User } from '../types/User';
+import { User } from '../../types/User';
 
 export const validateUserData = (data: User) => {
   const username = data.username.trim();

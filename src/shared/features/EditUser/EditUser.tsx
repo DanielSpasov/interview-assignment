@@ -4,7 +4,7 @@ import { Row, Form, message } from 'antd';
 
 import { selectUsersState, updateUser } from '../../../pages/users/usersSlice';
 import FormControls from '../../components/FormControls/FromControls';
-import { validateUserData } from '../../validators/user';
+import { validateUserData } from './validations';
 import { User } from '../../types/User';
 
 import { GeneralInformation } from './sections/GeneralInformation';
