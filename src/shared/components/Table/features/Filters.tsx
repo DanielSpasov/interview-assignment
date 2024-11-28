@@ -8,12 +8,12 @@ import { FiltersProps } from '../types';
 import Select from '../components/Select';
 import Input from '../components/Input';
 
-function Filters<T>({
+const Filters = <T extends { id: number }>({
   config,
   filters,
   setFilters,
   onClearAll
-}: FiltersProps<T>) {
+}: FiltersProps<T>) => {
   return (
     <div style={{ marginBottom: 16 }}>
       {config.map(filter => {
@@ -61,6 +61,6 @@ function Filters<T>({
       </Button>
     </div>
   );
-}
+};
 
 export default memo(Filters) as typeof Filters;

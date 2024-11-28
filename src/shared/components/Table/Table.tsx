@@ -9,11 +9,11 @@ import Pagination from './components/Pagination';
 import { STATUS } from '../../utils/constants';
 import { TableProps } from './types';
 
-function Table<T extends { id: number }>({
+const Table = <T extends { id: number }>({
   fetchFn,
   columns,
   filters: filtersConfig = []
-}: TableProps<T>) {
+}: TableProps<T>) => {
   const [filters, setFilters] = useState(filtersToObj(filtersConfig));
   const [page, setPage] = useState(1);
 
@@ -57,6 +57,6 @@ function Table<T extends { id: number }>({
       <Pagination current={page} onChange={setPage} total={total} />
     </article>
   );
-}
+};
 
 export default Table;

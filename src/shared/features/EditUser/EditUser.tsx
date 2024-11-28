@@ -2,7 +2,7 @@ import { ChangeEvent, FC, memo, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Row, Form, message } from 'antd';
 
-import FormControls from '../../components/FormControls/FromControls';
+import FormControls from '../../components/FormControls/FormControls';
 import { updateUser } from '../../../pages/users/usersSlice';
 import { validateUserData } from './validations';
 import { User } from '../../types/User';

@@ -2,7 +2,7 @@ import { ChangeEvent, FC, useContext, useMemo, useState } from 'react';
 import { Button, Form, message, Modal } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 
-import FormControls from '../../../shared/components/FormControls/FromControls';
+import FormControls from '../../../shared/components/FormControls/FormControls';
 import Textarea from '../../../shared/components/Textarea/Textarea';
 import Input from '../../../shared/components/Input/Input';
 import { Post } from '../../../shared/types/Post';
