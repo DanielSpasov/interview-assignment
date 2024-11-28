@@ -1,15 +1,20 @@
 import {
   createContext,
-  Dispatch,
   FC,
   ReactNode,
-  SetStateAction,
   useCallback,
-  useState
+  useState,
+  useEffect
 } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { message } from 'antd';
 
+import { fetchUsers, selectUsersState } from '../users/usersSlice';
+import { Dispatch } from '../../shared/stores/configureStore';
+import { STATUS } from '../../shared/utils/constants';
+import { User } from '../../shared/types/User';
 import { Post } from '../../shared/types/Post';
 
 type PostsContextState = {
@@ -19,16 +24,13 @@ type PostsContextState = {
   fetchPosts: (userId: string) => Promise<void>;
   updatePost: (postId: number, updatedData: Post) => Promise<void>;
   deletePost: (postId: number) => Promise<void>;
-  userId: string | null;
-  setUserId: Dispatch<SetStateAction<string | null>>;
+  user?: User;
 };
 
 const initialState = {
   posts: [],
   loading: true,
   error: null,
-  userId: null,
-  setUserId: () => {},
   fetchPosts: async () => {},
   updatePost: async () => {},
   deletePost: async () => {}
@@ -37,7 +39,21 @@ const initialState = {
 export const PostsContext = createContext<PostsContextState>(initialState);
 
 export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [userId, setUserId] = useState<string | null>(null);
+  const { id = '0' } = useParams();
+
+  const { users, status } = useSelector(selectUsersState);
+  const dispatch = useDispatch<Dispatch>();
+
+  const [user, setUser] = useState<User>();
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   setUser(users.find(user => user.id === Number(id)));
+  // }, [users, user?.id, id]);
+
   const [error, setError] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +67,6 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
         `https://jsonplaceholder.typicode.com/posts?userId=${userId}`
       );
 
-      setUserId(userId);
       setPosts(res.data);
     } catch (err) {
       message.error('Failed to fetch Posts.');
@@ -64,6 +79,17 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
       setLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (id === '0' || !users.length) return;
+
+      if (!user || user?.id !== Number(id)) {
+        setUser(users.find(user => user.id === Number(id)));
+        await fetchPosts(id);
+      }
+    })();
+  }, [fetchPosts, id, user, users]);
 
   const updatePost = useCallback(async (postId: number, updatedData: Post) => {
     try {
@@ -117,10 +143,9 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
         updatePost,
         deletePost,
         posts,
-        loading,
+        loading: loading || status === STATUS.LOADING,
         error,
-        userId,
-        setUserId
+        user
       }}
     >
       {children}

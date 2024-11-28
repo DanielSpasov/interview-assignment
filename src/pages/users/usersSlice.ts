@@ -49,7 +49,7 @@ export const { updateUser, setLoading, setUsers, setError } =
 
 export const fetchUsers =
   () => async (dispatch: Dispatch, getState: () => RootState) => {
-    if (getState().users.status === STATUS.SUCCESS) return;
+    if (getState().users.status !== STATUS.IDLE) return;
 
     dispatch(setLoading());
     try {
