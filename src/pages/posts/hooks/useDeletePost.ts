@@ -14,11 +14,9 @@ export const useDeletePost = () => {
 
         message.success('Post deleted successfully.');
       } catch (err) {
-        if (err instanceof AxiosError) {
-          message.error(err.message);
-          return;
-        }
-        message.error('Something went wrong.');
+        message.error(
+          err instanceof AxiosError ? err.message : 'Something went wrong.'
+        );
       }
     },
     []

@@ -15,11 +15,9 @@ export const useFetchPosts = () => {
 
       return res.data;
     } catch (err) {
-      if (err instanceof AxiosError) {
-        setError(err.message);
-        return;
-      }
-      setError('Something went wrong.');
+      setError(
+        err instanceof AxiosError ? err.message : 'Something went wrong.'
+      );
     } finally {
       setLoading(false);
     }

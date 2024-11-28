@@ -33,11 +33,9 @@ export const useTableData = <T extends { id: number }>({
         setData(data);
       } catch (err) {
         message.error('Failed to fetch data.');
-        if (err instanceof AxiosError) {
-          setError(err.message);
-          return;
-        }
-        setError('Something went wrong.');
+        setError(
+          err instanceof AxiosError ? err.message : 'Something went wrong.'
+        );
         setStatus(STATUS.ERROR);
       } finally {
         setStatus(STATUS.SUCCESS);

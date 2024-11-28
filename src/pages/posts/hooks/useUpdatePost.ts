@@ -21,11 +21,9 @@ export const useUpdatePost = () => {
         if (onSuccessCallback) onSuccessCallback({ data, postId });
         message.success('Post updated successfully.');
       } catch (err) {
-        if (err instanceof AxiosError) {
-          message.error(err.message);
-          return;
-        }
-        message.error('Something went wrong.');
+        message.error(
+          err instanceof AxiosError ? err.message : 'Something went wrong.'
+        );
       }
     },
     []
