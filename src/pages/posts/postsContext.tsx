@@ -4,7 +4,8 @@ import {
   ReactNode,
   useCallback,
   useState,
-  useEffect
+  useEffect,
+  useMemo
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -41,12 +42,16 @@ const initialState = {
 export const PostsContext = createContext<PostsContextState>(initialState);
 
 export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const { id = '0' } = useParams();
+  const { id = '' } = useParams();
 
   const { users, status } = useSelector(selectUsersState);
   const dispatch = useDispatch<Dispatch>();
 
-  const [user, setUser] = useState<User>();
+  const [userId, setUserId] = useState('');
+  const user = useMemo(
+    () => users.find(user => user.id === Number(id)),
+    [id, users]
+  );
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -60,15 +65,13 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     (async () => {
-      if (id === '0' || !users.length) return;
+      if (!id || !users.length || userId === id) return;
 
-      if (!user || user?.id !== Number(id)) {
-        setUser(users.find(user => user.id === Number(id)));
-        const userPosts = await fetchPosts(id);
-        setPosts(userPosts);
-      }
+      const userPosts = await fetchPosts(id);
+      setPosts(userPosts);
+      setUserId(id);
     })();
-  }, [fetchPosts, id, user, users]);
+  }, [fetchPosts, id, users, userId]);
 
   const onUpdatePostSuccess = useCallback((post: Post) => {
     setPosts(prev =>

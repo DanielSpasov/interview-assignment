@@ -14,7 +14,7 @@ import { Company } from './sections/Company';
 const EditUser: FC<{ user: User }> = ({ user }) => {
   const dispatch = useDispatch();
 
-  const [editedUser, setEditedUser] = useState<User>(user!);
+  const [editedUser, setEditedUser] = useState<User>(user);
   const [isEditing, setIsEditing] = useState(false);
 
   const isChanged = useMemo(
@@ -31,7 +31,7 @@ const EditUser: FC<{ user: User }> = ({ user }) => {
   };
 
   const handleRevert = () => {
-    setEditedUser(user!);
+    setEditedUser(user);
     message.info('Changes reverted.');
   };
 
@@ -93,7 +93,7 @@ const EditUser: FC<{ user: User }> = ({ user }) => {
         onCancel={
           isEditing
             ? () => {
-                setEditedUser(user!);
+                setEditedUser(user);
                 setIsEditing(false);
               }
             : undefined
