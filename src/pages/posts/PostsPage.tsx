@@ -17,15 +17,6 @@ const Posts = () => {
       </Card>
 
       <List />
-
-      {/* <EditPost
-        open={showModal}
-        setOpen={setShowModal}
-        updatePost={updatePost}
-        editedPost={editedPost}
-        setEditedPost={setEditedPost}
-        originalPost={posts.find(post => post.id === editedPost?.id)}
-      /> */}
     </PageLayout>
   );
 };

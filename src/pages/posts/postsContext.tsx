@@ -8,8 +8,6 @@ import {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import axios, { AxiosError } from 'axios';
-import { message } from 'antd';
 
 import { fetchUsers, selectUsersState } from '../users/usersSlice';
 import { Dispatch } from '../../shared/stores/configureStore';
@@ -17,12 +15,16 @@ import { STATUS } from '../../shared/utils/constants';
 import { User } from '../../shared/types/User';
 import { Post } from '../../shared/types/Post';
 
+import { UpdateProps, useUpdatePost } from './hooks/useUpdatePost';
+import { useFetchPosts } from './hooks/useFetchPosts';
+import { useDeletePost } from './hooks/useDeletePost';
+
 type PostsContextState = {
   posts: Post[];
   loading: boolean;
   error: string | null;
   fetchPosts: (userId: string) => Promise<void>;
-  updatePost: (postId: number, updatedData: Post) => Promise<void>;
+  updatePost: (props: UpdateProps) => Promise<void>;
   deletePost: (postId: number) => Promise<void>;
   user?: User;
 };
@@ -50,35 +52,11 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
     dispatch(fetchUsers());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   setUser(users.find(user => user.id === Number(id)));
-  // }, [users, user?.id, id]);
+  const { fetchPosts, error, loading } = useFetchPosts();
+  const { handleDelete } = useDeletePost();
+  const { handleUpdate } = useUpdatePost();
 
-  const [error, setError] = useState<string | null>(null);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  const fetchPosts = useCallback(async (userId: string) => {
-    try {
-      setError(null);
-      setLoading(true);
-
-      const res = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?userId=${userId}`
-      );
-
-      setPosts(res.data);
-    } catch (err) {
-      message.error('Failed to fetch Posts.');
-      if (err instanceof AxiosError) {
-        setError(err.message);
-        return;
-      }
-      setError('Something went wrong.');
-    } finally {
-      setLoading(false);
-    }
-  }, []);
 
   useEffect(() => {
     (async () => {
@@ -86,55 +64,36 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
       if (!user || user?.id !== Number(id)) {
         setUser(users.find(user => user.id === Number(id)));
-        await fetchPosts(id);
+        const userPosts = await fetchPosts(id);
+        setPosts(userPosts);
       }
     })();
   }, [fetchPosts, id, user, users]);
 
-  const updatePost = useCallback(async (postId: number, updatedData: Post) => {
-    try {
-      setError(null);
-
-      await axios.put(
-        `https://jsonplaceholder.typicode.com/posts/${postId}`,
-        updatedData
-      );
-
-      setPosts(prev =>
-        prev.map(post =>
-          post.id === postId ? { ...post, ...updatedData } : post
-        )
-      );
-      message.success('Post updated successfully.');
-    } catch (err) {
-      message.error('Failed to update Post.');
-      if (err instanceof AxiosError) {
-        setError(err.message);
-        return;
-      }
-      setError('Something went wrong.');
-    }
+  const onUpdatePostSuccess = useCallback(({ data, postId }: UpdateProps) => {
+    setPosts(prev =>
+      prev.map(post => (post.id === postId ? { ...post, ...data } : post))
+    );
   }, []);
 
-  const deletePost = useCallback(async (postId: number) => {
-    try {
-      setError(null);
+  const updatePost = useCallback(
+    async ({ data, postId }: UpdateProps) =>
+      await handleUpdate({
+        data,
+        postId,
+        onSuccessCallback: onUpdatePostSuccess
+      }),
+    [onUpdatePostSuccess, handleUpdate]
+  );
 
-      await axios.delete(
-        `https://jsonplaceholder.typicode.com/posts/${postId}`
-      );
-
-      setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
-      message.success('Post deleted successfully.');
-    } catch (err) {
-      message.error('Failed to delete Post.');
-      if (err instanceof AxiosError) {
-        setError(err.message);
-        return;
-      }
-      setError('Something went wrong.');
-    }
+  const onDeletePostSuccess = useCallback((postId: number) => {
+    setPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
   }, []);
+
+  const deletePost = useCallback(
+    (postId: number) => handleDelete(postId, onDeletePostSuccess),
+    [onDeletePostSuccess, handleDelete]
+  );
 
   return (
     <PostsContext.Provider

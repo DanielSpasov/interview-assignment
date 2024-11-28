@@ -15,7 +15,7 @@ export const EditPost: FC<{ post: Post }> = ({ post }) => {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async () => {
-    await updatePost(editedPost.id, editedPost);
+    await updatePost({ postId: editedPost.id, data: editedPost });
     setOpen(false);
   };
 
