@@ -4,21 +4,16 @@ import { message } from 'antd';
 
 import { Post } from '../../../shared/types/Post';
 
-export type UpdateProps = { postId: number; data: Post };
-type HandleUpdateProps = UpdateProps & {
-  onSuccessCallback: (props: UpdateProps) => void;
-};
-
 export const useUpdatePost = () => {
   const handleUpdate = useCallback(
-    async ({ data, postId, onSuccessCallback }: HandleUpdateProps) => {
+    async (post: Post, onSuccessCallback: (post: Post) => void) => {
       try {
         await axios.put(
-          `https://jsonplaceholder.typicode.com/posts/${postId}`,
-          data
+          `https://jsonplaceholder.typicode.com/posts/${post.id}`,
+          post
         );
 
-        if (onSuccessCallback) onSuccessCallback({ data, postId });
+        if (onSuccessCallback) onSuccessCallback(post);
         message.success('Post updated successfully.');
       } catch (err) {
         message.error(

@@ -15,7 +15,7 @@ import { STATUS } from '../../shared/utils/constants';
 import { User } from '../../shared/types/User';
 import { Post } from '../../shared/types/Post';
 
-import { UpdateProps, useUpdatePost } from './hooks/useUpdatePost';
+import { useUpdatePost } from './hooks/useUpdatePost';
 import { useFetchPosts } from './hooks/useFetchPosts';
 import { useDeletePost } from './hooks/useDeletePost';
 
@@ -24,7 +24,7 @@ type PostsContextState = {
   loading: boolean;
   error: string | null;
   fetchPosts: (userId: string) => Promise<void>;
-  updatePost: (props: UpdateProps) => Promise<void>;
+  updatePost: (post: Post) => Promise<void>;
   deletePost: (postId: number) => Promise<void>;
   user?: User;
 };
@@ -70,19 +70,14 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
     })();
   }, [fetchPosts, id, user, users]);
 
-  const onUpdatePostSuccess = useCallback(({ data, postId }: UpdateProps) => {
+  const onUpdatePostSuccess = useCallback((post: Post) => {
     setPosts(prev =>
-      prev.map(post => (post.id === postId ? { ...post, ...data } : post))
+      prev.map(old => (old.id === post.id ? { ...old, ...post } : old))
     );
   }, []);
 
   const updatePost = useCallback(
-    async ({ data, postId }: UpdateProps) =>
-      await handleUpdate({
-        data,
-        postId,
-        onSuccessCallback: onUpdatePostSuccess
-      }),
+    async (post: Post) => await handleUpdate(post, onUpdatePostSuccess),
     [onUpdatePostSuccess, handleUpdate]
   );
 
