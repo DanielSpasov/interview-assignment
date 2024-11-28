@@ -27,7 +27,7 @@ const Table = <T extends { id: number }>({
   });
 
   return (
-    <article>
+    <div>
       <Filters<T>
         config={filtersConfig}
         filters={filters}
@@ -55,7 +55,7 @@ const Table = <T extends { id: number }>({
       />
 
       <Pagination current={page} onChange={setPage} total={total} />
-    </article>
+    </div>
   );
 };
 
