@@ -32,7 +32,7 @@ export const useTableData = <T extends { id: number }>({
         const { data } = await fetchFn();
         setData(data);
       } catch (err) {
-        message.error('Failed to fetch Tasks.');
+        message.error('Failed to fetch data.');
         if (err instanceof AxiosError) {
           setError(err.message);
           return;
@@ -80,13 +80,9 @@ export const useTableData = <T extends { id: number }>({
     [pagination, filteredData]
   );
 
-  const updateData = useCallback(
-    (id: number, update: Record<string, string | boolean | undefined>) => {
-      setDataUpdates(prev => {
-        const updated = new Map(prev);
-        updated.set(id, update);
-        return updated;
-      });
+  const handleUpdate = useCallback(
+    (id: number, update: Record<string, SelectValueType>) => {
+      setDataUpdates(prev => new Map(prev.set(id, update)));
     },
     []
   );
@@ -94,7 +90,7 @@ export const useTableData = <T extends { id: number }>({
   return {
     total: filteredData.length,
     currentData,
-    updateData,
+    handleUpdate,
     status,
     error
   };

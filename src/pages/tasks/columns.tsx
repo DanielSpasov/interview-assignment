@@ -23,11 +23,13 @@ export const columns: Column<Task>[] = [
     title: 'Completed',
     key: 'completed',
     dataIndex: 'completed',
-    render: updateData => (value, record) =>
+    render: handleUpdate => (value, record) =>
       (
         <Checkbox
           checked={Boolean(value)}
-          onChange={e => updateData(record.id, { completed: e.target.checked })}
+          onChange={e =>
+            handleUpdate(record.id, { completed: e.target.checked })
+          }
         />
       )
   }

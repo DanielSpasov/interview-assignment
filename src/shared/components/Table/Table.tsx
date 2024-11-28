@@ -1,5 +1,5 @@
 import { Table as AntTable } from 'antd';
-import { memo, useState } from 'react';
+import { useState } from 'react';
 
 import Filters from './features/Filters';
 
@@ -17,7 +17,7 @@ function Table<T extends { id: number }>({
   const [filters, setFilters] = useState(filtersToObj(filtersConfig));
   const [page, setPage] = useState(1);
 
-  const { status, currentData, total, updateData } = useTableData<T>({
+  const { status, currentData, total, handleUpdate } = useTableData<T>({
     fetchFn,
     filters,
     pagination: {
@@ -45,7 +45,9 @@ function Table<T extends { id: number }>({
         dataSource={currentData}
         columns={columns.map(col => ({
           ...col,
-          render: col?.render?.(updateData)
+          key: col.key as string,
+          dataIndex: col.dataIndex as string,
+          render: col?.render?.(handleUpdate)
         }))}
         loading={status === STATUS.LOADING}
         rowKey="id"
@@ -57,4 +59,4 @@ function Table<T extends { id: number }>({
   );
 }
 
-export default memo(Table) as typeof Table;
+export default Table;

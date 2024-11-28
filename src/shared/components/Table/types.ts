@@ -36,8 +36,8 @@ export type FiltersProps<T> = {
 
 export type Column<T> = {
   title: string;
-  key: string;
-  dataIndex: string;
+  key: keyof T;
+  dataIndex: keyof T;
   render?: (
     updateFn: (
       id: number,
