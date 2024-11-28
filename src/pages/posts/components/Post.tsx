@@ -1,18 +1,14 @@
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { FC, memo, MouseEventHandler } from 'react';
-import { Button, Card, Popconfirm } from 'antd';
+import { FC, memo } from 'react';
+import { Card } from 'antd';
 
 import { Post as IPost } from '../../../shared/types/Post';
+import { DeletePost } from '../features/DeletePost';
+import { EditPost } from '../features/EditPost';
 
-export type PostProps = {
-  onEdit: MouseEventHandler<HTMLButtonElement>;
-  onDelete: (id: number) => Promise<void>;
-} & IPost;
-
-const Post: FC<PostProps> = ({ title, body, id, onEdit, onDelete }) => {
+const Post: FC<{ post: IPost }> = ({ post }) => {
   return (
-    <Card title={title} hoverable>
-      <Card.Meta description={body} />
+    <Card title={post.title} hoverable>
+      <Card.Meta description={post.body} />
 
       <div
         style={{
@@ -22,20 +18,8 @@ const Post: FC<PostProps> = ({ title, body, id, onEdit, onDelete }) => {
           marginTop: '10px'
         }}
       >
-        <Button onClick={onEdit} icon={<EditOutlined />}>
-          Edit
-        </Button>
-
-        <Popconfirm
-          title="Are you sure you want to delete this post?"
-          onConfirm={() => onDelete(id)}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button danger icon={<DeleteOutlined />}>
-            Delete
-          </Button>
-        </Popconfirm>
+        <EditPost post={post} />
+        <DeletePost id={post.id} />
       </div>
     </Card>
   );

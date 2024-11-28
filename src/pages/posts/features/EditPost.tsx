@@ -1,95 +1,79 @@
-import { FC, memo, useCallback, useMemo } from 'react';
-import { Dispatch, SetStateAction } from 'react';
-import { Form, message, Modal } from 'antd';
+import { ChangeEvent, FC, useContext, useMemo, useState } from 'react';
+import { Button, Form, message, Modal } from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
 import FormControls from '../../../shared/components/FormControls/FromControls';
 import Textarea from '../../../shared/components/Textarea/Textarea';
 import Input from '../../../shared/components/Input/Input';
 import { Post } from '../../../shared/types/Post';
+import { PostsContext } from '../postsContext';
 
-export type EditPostProps = {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  updatePost: (id: number, data: Post) => Promise<void>;
-  editedPost: Partial<Post>;
-  setEditedPost: Dispatch<SetStateAction<Partial<Post>>>;
-  originalPost?: Post;
-};
+export const EditPost: FC<{ post: Post }> = ({ post }) => {
+  const { updatePost } = useContext(PostsContext);
 
-const EditPost: FC<EditPostProps> = ({
-  open,
-  setOpen,
-  updatePost,
-  editedPost,
-  setEditedPost,
-  originalPost
-}) => {
-  const handleRevert = useCallback(() => {
-    if (!originalPost) return;
+  const [editedPost, setEditedPost] = useState<Post>(post);
+  const [open, setOpen] = useState(false);
 
-    setEditedPost(originalPost);
-    message.info('Changes reverted.');
-  }, [originalPost, setEditedPost]);
-
-  const handleSubmit = useCallback(async () => {
-    if (!editedPost?.id) return;
-
-    await updatePost(editedPost.id, editedPost as Post);
+  const handleSubmit = async () => {
+    await updatePost(editedPost.id, editedPost);
     setOpen(false);
-    setEditedPost({});
-  }, [editedPost, updatePost, setEditedPost, setOpen]);
+  };
 
-  const isChanged = useMemo(() => {
-    if (!editedPost?.id || !originalPost) return false;
+  const handleRevert = () => {
+    setEditedPost(post);
+    message.info('Changes reverted.');
+  };
 
-    return (
-      editedPost?.title !== originalPost?.title ||
-      editedPost?.body !== originalPost?.body
-    );
-  }, [editedPost, originalPost]);
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setEditedPost(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const isChanged = useMemo(
+    () => editedPost.title !== post.title || editedPost.body !== post.body,
+    [editedPost, post]
+  );
 
   return (
-    <Modal
-      title="Edit Post"
-      open={open}
-      onCancel={() => {
-        setOpen(false);
-        setEditedPost({});
-      }}
-      footer={null}
-    >
-      <Form>
-        <Input
-          label="Title"
-          name="title"
-          onChange={e =>
-            setEditedPost(prev => ({ ...prev, title: e.target.value }))
-          }
-          value={editedPost?.title}
-        />
+    <>
+      <Button onClick={() => setOpen(true)} icon={<EditOutlined />}>
+        Edit
+      </Button>
 
-        <Textarea
-          label="Body"
-          name="body"
-          onChange={e =>
-            setEditedPost(prev => ({ ...prev, body: e.target.value }))
-          }
-          value={editedPost?.body}
-        />
-      </Form>
+      <Modal
+        title="Edit Post"
+        open={open}
+        footer={null}
+        onCancel={() => setOpen(false)}
+      >
+        <Form>
+          <Input
+            label="Title"
+            name="title"
+            onChange={handleChange}
+            value={editedPost.title}
+          />
 
-      <FormControls
-        disableRevert={!isChanged}
-        disableSubmit={!isChanged}
-        onSubmit={handleSubmit}
-        onRevert={handleRevert}
-        onCancel={() => {
-          setEditedPost({});
-          setOpen(false);
-        }}
-      />
-    </Modal>
+          <Textarea
+            label="Body"
+            name="body"
+            onChange={handleChange}
+            value={editedPost.body}
+          />
+        </Form>
+
+        <FormControls
+          disableRevert={!isChanged}
+          disableSubmit={!isChanged}
+          onSubmit={handleSubmit}
+          onRevert={handleRevert}
+          onCancel={() => {
+            setEditedPost(post);
+            setOpen(false);
+          }}
+        />
+      </Modal>
+    </>
   );
 };
-
-export default memo(EditPost);
