@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import { Card } from 'antd';
 
-import PageLayout from '../../shared/components/PageLayout/PageLayout';
 import { PostsContext } from './postsContext';
 
+import PageLayout from '../../shared/components/PageLayout/PageLayout';
 import EditUser from '../../shared/features/EditUser/EditUser';
 import List from '../../pages/posts/sections/List';
 

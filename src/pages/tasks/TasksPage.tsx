@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-import PageLayout from '../../shared/components/PageLayout/PageLayout';
-
-import Table from '../../shared/components/Table/Table';
+import { PageLayout, Table } from '../../shared/components';
 import { Task } from '../../shared/types/Task';
+
 import { columns } from './columns';
 import { filters } from './filters';
 
