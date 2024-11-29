@@ -4,8 +4,8 @@ import { AxiosError } from 'axios';
 import { FiltersObj, FilterType, SelectValueType } from '../types';
 import { STATUS, PAGE_SIZE } from '../../../utils/constants';
 import { PaginationProps } from '../components/Pagination';
-import { filter } from '../../../utils/filters';
 import { TableProps } from '../types';
+import { filter } from '../utils';
 
 type UseTableDataProps<T> = {
   fetchFn: TableProps<T>['fetchFn'];

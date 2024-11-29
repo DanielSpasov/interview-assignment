@@ -4,9 +4,9 @@ import { useState } from 'react';
 import Filters from './features/Filters';
 
 import { useTableData } from './hooks/useTableData';
-import { filtersToObj } from '../../utils/filters';
 import Pagination from './components/Pagination';
 import { STATUS } from '../../utils/constants';
+import { filtersToObj } from './utils';
 import { TableProps } from './types';
 
 const Table = <T extends { id: number }>({
