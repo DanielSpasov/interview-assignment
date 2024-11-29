@@ -89,7 +89,7 @@ export const PostsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, []);
 
   const deletePost = useCallback(
-    (postId: number) => handleDelete(postId, onDeletePostSuccess),
+    async (postId: number) => await handleDelete(postId, onDeletePostSuccess),
     [onDeletePostSuccess, handleDelete]
   );
 
