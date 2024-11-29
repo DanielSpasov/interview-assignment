@@ -7,6 +7,7 @@ export const useFetchPosts = () => {
 
   const fetchPosts = useCallback(async (userId: string) => {
     try {
+      setError(null);
       setLoading(true);
 
       const res = await axios.get(

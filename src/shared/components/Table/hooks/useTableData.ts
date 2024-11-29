@@ -27,6 +27,7 @@ export const useTableData = <T extends { id: number }>({
   useEffect(() => {
     (async () => {
       try {
+        setError(null);
         setStatus(STATUS.LOADING);
         const { data } = await fetchFn();
         setData(data);
