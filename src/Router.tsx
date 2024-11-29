@@ -4,8 +4,8 @@ import Users from './pages/users/UsersPage';
 import Posts from './pages/posts/PostsPage';
 import Tasks from './pages/tasks/TasksPage';
 
+import { PostsLayout } from './shared/components/PostsLayout/PostsLayout';
 import PageLayout from './shared/components/PageLayout/PageLayout';
-import { PostsProvider } from './pages/posts/postsContext';
 
 const Router = () => {
   return (
@@ -13,31 +13,12 @@ const Router = () => {
       <Routes>
         <Route index element={<Navigate to="/users" />} />
 
-        <Route
-          path="/users"
-          element={
-            <PostsProvider>
-              <Users />
-            </PostsProvider>
-          }
-        />
-        <Route
-          path="/users/:id/posts"
-          element={
-            <PostsProvider>
-              <Posts />
-            </PostsProvider>
-          }
-        />
+        <Route path="/users" element={<PostsLayout />}>
+          <Route index element={<Users />} />
+          <Route path=":id/posts" element={<Posts />} />
+        </Route>
 
-        <Route
-          path="/tasks"
-          element={
-            <PostsProvider>
-              <Tasks />
-            </PostsProvider>
-          }
-        />
+        <Route path="/tasks" element={<Tasks />} />
 
         <Route path="*" element={<PageLayout title="Page not Found" />} />
       </Routes>
