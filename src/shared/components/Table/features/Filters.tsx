@@ -1,9 +1,9 @@
 import { CloseOutlined } from '@ant-design/icons';
+import { memo, useCallback } from 'react';
 import { Button } from 'antd';
-import { memo } from 'react';
 
-import { COMPONENT_TYPE } from '../../../../shared/utils/constants';
-import { FiltersProps } from '../types';
+import { FiltersProps, SelectValueType } from '../types';
+import { COMPONENT_TYPE } from '../../../utils/constants';
 
 import Select from '../components/Select';
 import Input from '../components/Input';
@@ -14,6 +14,16 @@ const Filters = <T extends { id: number }>({
   setFilters,
   onClearAll
 }: FiltersProps<T>) => {
+  const handleChange = useCallback(
+    (key: keyof T, value: SelectValueType) => {
+      setFilters(prev => ({
+        ...prev,
+        [key]: { value, type: prev[key]?.type }
+      }));
+    },
+    [setFilters]
+  );
+
   return (
     <div style={{ marginBottom: 16 }}>
       {config.map(filter => {
@@ -21,36 +31,19 @@ const Filters = <T extends { id: number }>({
           case COMPONENT_TYPE.INPUT:
             return (
               <Input
+                {...filter}
                 key={filter.key as string}
-                placeholder={filter.placeholder}
-                onChange={e =>
-                  setFilters(prev => ({
-                    ...prev,
-                    [filter.key]: {
-                      value: e.target.value,
-                      type: prev[filter.key]?.type
-                    }
-                  }))
-                }
                 value={filters[filter.key]?.value as string}
+                onChange={e => handleChange(filter.key, e.target.value)}
               />
             );
           case COMPONENT_TYPE.SELECT:
             return (
               <Select
+                {...filter}
                 key={filter.key as string}
-                options={filter.options}
-                placeholder={filter.placeholder}
                 value={filters[filter.key]?.value}
-                onChange={value => {
-                  setFilters(prev => ({
-                    ...prev,
-                    [filter.key]: {
-                      value: value,
-                      type: prev[filter.key]?.type
-                    }
-                  }));
-                }}
+                onChange={value => handleChange(filter.key, value)}
               />
             );
         }

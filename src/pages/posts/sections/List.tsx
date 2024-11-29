@@ -1,10 +1,10 @@
 import { Col, Row, Typography } from 'antd';
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 
 import { PostsContext } from '../postsContext';
 import Post from '../components/Post';
 
-const List: FC = () => {
+const List = () => {
   const { posts, user } = useContext(PostsContext);
 
   return (

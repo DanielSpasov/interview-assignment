@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AxiosError } from 'axios';
-import { message } from 'antd';
 
 import { FiltersObj, FilterType, SelectValueType } from '../types';
 import { STATUS, PAGE_SIZE } from '../../../utils/constants';
@@ -32,9 +31,10 @@ export const useTableData = <T extends { id: number }>({
         const { data } = await fetchFn();
         setData(data);
       } catch (err) {
-        message.error('Failed to fetch data.');
         setError(
-          err instanceof AxiosError ? err.message : 'Something went wrong.'
+          err instanceof AxiosError
+            ? err.message
+            : 'Failed to fetch table data.'
         );
         setStatus(STATUS.ERROR);
       } finally {
@@ -79,7 +79,7 @@ export const useTableData = <T extends { id: number }>({
   );
 
   const handleUpdate = useCallback(
-    (id: number, update: Record<string, SelectValueType>) => {
+    (id: number, update: Partial<Record<keyof T, SelectValueType>>) => {
       setDataUpdates(prev => new Map(prev.set(id, update)));
     },
     []

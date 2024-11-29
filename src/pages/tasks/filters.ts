@@ -17,7 +17,7 @@ export const filters: Filter<Task>[] = [
       {
         key: 'all',
         label: 'All',
-        value: undefined
+        value: ''
       },
       {
         key: 'completed',

@@ -22,14 +22,8 @@ const Select: FC<SelectProps> = ({
       onChange={onChange}
       style={{ width: 200, marginRight: 16 }}
       value={value}
-    >
-      {options.length &&
-        options?.map(option => (
-          <AntSelect.Option key={option.key} value={option.value}>
-            {option.label}
-          </AntSelect.Option>
-        ))}
-    </AntSelect>
+      options={options}
+    />
   );
 };
 

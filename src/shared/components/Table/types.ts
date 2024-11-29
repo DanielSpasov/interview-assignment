@@ -7,7 +7,7 @@ import { FILTER_TYPE, COMPONENT_TYPE } from '../../utils/constants';
 export type FilterType = keyof typeof FILTER_TYPE;
 type ComponentType = keyof typeof COMPONENT_TYPE;
 
-export type SelectValueType = string | boolean | undefined;
+export type SelectValueType = string | boolean;
 
 export type Option = {
   label: string;
@@ -23,8 +23,9 @@ export type Filter<T> = {
   options?: Option[];
 };
 
-export type FiltersObj<T> = Partial<
-  Record<keyof T, { value: SelectValueType; type: FilterType }>
+export type FiltersObj<T> = Record<
+  keyof T,
+  { value: SelectValueType; type: FilterType }
 >;
 
 export type FiltersProps<T> = {

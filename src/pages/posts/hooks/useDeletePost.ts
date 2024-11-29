@@ -11,7 +11,6 @@ export const useDeletePost = () => {
         );
 
         if (onSuccessCallback) onSuccessCallback(postId);
-
         message.success('Post deleted successfully.');
       } catch (err) {
         message.error(

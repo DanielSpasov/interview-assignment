@@ -1,4 +1,4 @@
-import { Table as AntTable } from 'antd';
+import { Alert, Table as AntTable } from 'antd';
 import { useState } from 'react';
 
 import Filters from './features/Filters';
@@ -17,7 +17,7 @@ const Table = <T extends { id: number }>({
   const [filters, setFilters] = useState(filtersToObj(filtersConfig));
   const [page, setPage] = useState(1);
 
-  const { status, currentData, total, handleUpdate } = useTableData<T>({
+  const { status, currentData, total, error, handleUpdate } = useTableData<T>({
     fetchFn,
     filters,
     pagination: {
@@ -26,13 +26,23 @@ const Table = <T extends { id: number }>({
     }
   });
 
+  if (error) {
+    return (
+      <Alert
+        message="Failed to fetch table data."
+        description={error}
+        type="error"
+      />
+    );
+  }
+
   return (
     <div>
       <Filters<T>
         config={filtersConfig}
         filters={filters}
-        setFilters={e => {
-          setFilters(e);
+        setFilters={filters => {
+          setFilters(filters);
           setPage(1);
         }}
         onClearAll={() => {
