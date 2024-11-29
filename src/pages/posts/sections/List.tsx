@@ -1,11 +1,21 @@
-import { Col, Row, Typography } from 'antd';
+import { Alert, Col, Row, Typography } from 'antd';
 import { useContext } from 'react';
 
 import { PostsContext } from '../postsContext';
 import Post from '../components/Post';
 
 const List = () => {
-  const { posts, user } = useContext(PostsContext);
+  const { posts, user, error } = useContext(PostsContext);
+
+  if (error) {
+    return (
+      <Alert
+        message="Failed to fetch posts."
+        description={error}
+        type="error"
+      />
+    );
+  }
 
   return (
     <Row gutter={[16, 16]}>
